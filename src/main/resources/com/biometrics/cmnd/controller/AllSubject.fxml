@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane prefHeight="500.0" prefWidth="740.0" xmlns="http://javafx.com/javafx/11.0.1"
+            xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.biometrics.cmnd.controller.AllSubject">
+    <AnchorPane prefHeight="500.0" prefWidth="740.0">
+        <children>
+            <AnchorPane prefHeight="500.0" prefWidth="740.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0"
+                        AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                <children>
+                    <TableView fx:id="tableSubject" layoutX="14.0" layoutY="34.0" prefHeight="455.0" prefWidth="714.0">
+                    </TableView>
+                    <Button fx:id="detail" onAction="#detail" layoutX="674.0" layoutY="1.0" mnemonicParsing="false" text="Detail"/>
+                </children>
+            </AnchorPane>
+        </children>
+    </AnchorPane>
+</AnchorPane>

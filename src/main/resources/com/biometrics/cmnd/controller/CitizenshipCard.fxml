@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.RadioButton?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.ToggleGroup?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.StackPane?>
+
+<TabPane xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.biometrics.cmnd.controller.CitizenshipCard">
+    <tabs>
+        <Tab closable="false" text="Add Subject">
+            <content>
+                <AnchorPane prefHeight="500.0" prefWidth="740.0">
+                    <children>
+                        <AnchorPane prefHeight="500.0" prefWidth="700.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                            <children>
+                                <Pane layoutX="1.0" layoutY="1.0" prefHeight="500.0" prefWidth="698.0" style="-fx-border-color: gray;" AnchorPane.bottomAnchor="-1.0" AnchorPane.leftAnchor="1.0" AnchorPane.rightAnchor="1.0" AnchorPane.topAnchor="1.0">
+                                    <children>
+                                        <Pane layoutX="14.0" layoutY="32.0" prefHeight="252.0" prefWidth="200.0">
+                                            <children>
+                                                <Button fx:id="chooseImage" layoutX="54.0" layoutY="213.0" mnemonicParsing="false" onAction="#chooseImage" text="Choose Image" />
+                                                <StackPane fx:id="imageview" prefHeight="208.0" prefWidth="200.0" style="-fx-border-color: Gray;" />
+                                            </children>
+                                        </Pane>
+                                        <Pane layoutX="484.0" layoutY="165.0" prefHeight="50.0" prefWidth="240.0">
+                                            <children>
+                                                <TextField fx:id="district" layoutX="94.0" layoutY="13.0" prefHeight="25.0" prefWidth="137.0" />
+                                                <Label layoutX="11.0" layoutY="13.0" prefHeight="25.0" prefWidth="65.0" text="District" />
+                                            </children>
+                                        </Pane>
+                                        <Pane layoutX="484.0" layoutY="14.0" prefHeight="50.0" prefWidth="240.0">
+                                            <children>
+                                                <TextField fx:id="city" layoutX="94.0" layoutY="13.0" prefHeight="25.0" prefWidth="137.0" />
+                                                <Label layoutX="11.0" layoutY="13.0" prefHeight="25.0" prefWidth="73.0" text="City" />
+                                            </children>
+                                        </Pane>
+                                        <Pane layoutX="484.0" layoutY="64.0" prefHeight="50.0" prefWidth="240.0">
+                                            <children>
+                                                <TextField fx:id="country" layoutX="93.0" layoutY="13.0" prefHeight="25.0" prefWidth="137.0" />
+                                                <Label layoutX="11.0" layoutY="13.0" prefHeight="25.0" prefWidth="73.0" text="Country" />
+                                            </children>
+                                        </Pane>
+                                        <Pane layoutX="222.0" layoutY="114.0" prefHeight="50.0" prefWidth="240.0">
+                                            <children>
+                                                <TextField fx:id="province" layoutX="94.0" layoutY="13.0" prefHeight="25.0" prefWidth="137.0" />
+                                                <Label layoutX="10.0" layoutY="13.0" prefHeight="25.0" prefWidth="73.0" text="Province" />
+                                            </children>
+                                        </Pane>
+                                        <Pane layoutX="222.0" layoutY="164.0" prefHeight="50.0" prefWidth="240.0">
+                                            <children>
+                                                <TextField fx:id="street" layoutX="94.0" layoutY="13.0" prefHeight="25.0" prefWidth="137.0" />
+                                                <Label layoutX="11.0" layoutY="13.0" prefHeight="25.0" prefWidth="65.0" text="Street" />
+                                            </children>
+                                        </Pane>
+                                        <Button fx:id="save" layoutX="675.0" layoutY="321.0" mnemonicParsing="false" onAction="#save" text="save" />
+                                        <Pane layoutX="484.0" layoutY="215.0" prefHeight="50.0" prefWidth="240.0">
+                                            <children>
+                                                <TextField fx:id="zip" layoutX="89.0" layoutY="13.0" prefHeight="25.0" prefWidth="137.0" />
+                                                <Label layoutX="11.0" layoutY="13.0" prefHeight="25.0" prefWidth="65.0" text="Zip" />
+                                            </children>
+                                        </Pane>
+                                        <Pane layoutX="484.0" layoutY="114.0" prefHeight="50.0" prefWidth="240.0">
+                                            <children>
+                                                <TextField fx:id="birthday" layoutX="94.0" layoutY="13.0" prefHeight="25.0" prefWidth="137.0" />
+                                                <Label layoutX="11.0" layoutY="13.0" prefHeight="25.0" prefWidth="65.0" text="Birth day" />
+                                            </children>
+                                        </Pane>
+                                        <RadioButton fx:id="male" layoutX="485.0" layoutY="325.0" mnemonicParsing="false" text="Male">
+                                            <toggleGroup>
+                                                <ToggleGroup fx:id="gender" />
+                                            </toggleGroup>
+                                        </RadioButton>
+                                        <RadioButton fx:id="female" layoutX="566.0" layoutY="325.0" mnemonicParsing="false" text="Female" toggleGroup="$gender" />
+                                        <Pane layoutX="222.0" layoutY="14.0" prefHeight="50.0" prefWidth="240.0">
+                                            <children>
+                                                <TextField fx:id="firstname" layoutX="94.0" layoutY="13.0" prefHeight="25.0" prefWidth="137.0" />
+                                                <Label layoutX="10.0" layoutY="13.0" prefHeight="25.0" prefWidth="73.0" text="First Name" />
+                                            </children>
+                                        </Pane>
+                                        <Pane layoutX="222.0" layoutY="64.0" prefHeight="50.0" prefWidth="240.0">
+                                            <children>
+                                                <TextField fx:id="lastname" layoutX="94.0" layoutY="13.0" prefHeight="25.0" prefWidth="137.0" />
+                                                <Label layoutX="11.0" layoutY="13.0" prefHeight="25.0" prefWidth="65.0" text="Last Name" />
+                                            </children>
+                                        </Pane>
+                                        <Pane layoutX="222.0" layoutY="214.0" prefHeight="50.0" prefWidth="240.0">
+                                            <children>
+                                                <TextField fx:id="email" layoutX="94.0" layoutY="13.0" prefHeight="25.0" prefWidth="137.0" />
+                                                <Label layoutX="11.0" layoutY="13.0" prefHeight="25.0" prefWidth="65.0" text="Email" />
+                                            </children>
+                                        </Pane>
+                                        <Pane layoutX="222.0" layoutY="266.0" prefHeight="50.0" prefWidth="240.0">
+                                            <children>
+                                                <TextField fx:id="nid" layoutX="94.0" layoutY="13.0" prefHeight="25.0" prefWidth="137.0" />
+                                                <Label layoutX="11.0" layoutY="13.0" prefHeight="25.0" prefWidth="65.0" text="Nid" />
+                                            </children>
+                                        </Pane>
+                                        <Pane layoutX="484.0" layoutY="266.0" prefHeight="50.0" prefWidth="240.0">
+                                            <children>
+                                                <TextField fx:id="phone" layoutX="94.0" layoutY="13.0" prefHeight="25.0" prefWidth="137.0" />
+                                                <Label layoutX="11.0" layoutY="13.0" prefHeight="25.0" prefWidth="65.0" text="Phone" />
+                                            </children>
+                                        </Pane>
+                                        <StackPane fx:id="fingerView" layoutX="14.0" layoutY="278.0" prefHeight="210.0" prefWidth="200.0" style="-fx-border-color: gray;" />
+                                        <Button fx:id="scan" layoutX="222.0" layoutY="461.0" mnemonicParsing="false" onAction="#scan" text="Scan" />
+                                    </children>
+                                </Pane>
+                            </children>
+                        </AnchorPane>
+                    </children>
+                </AnchorPane>
+            </content>
+        </Tab>
+      <Tab closable="false" text="All Subject">
+         <content>
+            <fx:include source="AllSubject.fxml"/>
+         </content>
+      </Tab>
+        <Tab closable="false" text="Add Account">
+            <content>
+                <!--                <fx:include source="RegisterCard.fxml"/>-->
+            </content>
+        </Tab>
+    </tabs>
+</TabPane>
