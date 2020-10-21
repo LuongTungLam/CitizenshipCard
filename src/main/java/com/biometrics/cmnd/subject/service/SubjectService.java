@@ -43,10 +43,10 @@ public class SubjectService {
         return subjectRepository.save(subject);
     }
 
-    public Subject create(SubjectDto.CreateReq dto, ImageInfo imageInfo, byte[] bioTemplate) {
+    public Subject create(SubjectDto.CreateReq dto, List<ImageInfo> imageInfos, byte[] bioTemplate) {
 
         Subject subject = dto.toEntity();
-        subject.addSubjectImage(imageInfo);
+        imageInfos.forEach(imageInfo -> subject.addSubjectImage(imageInfo));
         subject.addBioTemplate(bioTemplate);
 
         return subjectRepository.save(subject);

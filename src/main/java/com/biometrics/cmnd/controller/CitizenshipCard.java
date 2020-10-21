@@ -12,15 +12,19 @@ import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.kbjung.abis.neurotec.biometrics.fx.FaceViewNode;
 import com.kbjung.abis.neurotec.biometrics.fx.FingerViewNode;
 import com.kbjung.abis.neurotec.biometrics.utils.NImageUtils;
-import com.neurotec.biometrics.NBiometricStatus;
-import com.neurotec.biometrics.NFace;
-import com.neurotec.biometrics.NFinger;
-import com.neurotec.biometrics.NSubject;
+import com.neurotec.biometrics.*;
 import com.neurotec.biometrics.client.NBiometricClient;
+import com.neurotec.biometrics.swing.NFingerViewBase;
+import com.neurotec.devices.NDevice;
+import com.neurotec.devices.NDeviceManager;
+import com.neurotec.devices.NDeviceType;
+import com.neurotec.devices.NFingerScanner;
 import com.neurotec.images.NImage;
 import com.neurotec.images.NImageFormat;
 import com.neurotec.util.concurrent.CompletionHandler;
 import javafx.application.Platform;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -57,76 +61,102 @@ public class CitizenshipCard implements Initializable {
     private Button chooseImage, save;
     @FXML
     private StackPane imageview, fingerView;
+    @FXML
+    private ComboBox listScan;
 
-    private File fileImage;
+    private boolean scanning;
+    private File fileFace;
     private File fileFinger;
     private FileChooser fc;
-    private NSubject subject;
+    private NSubject nSubject;
+
+    private final CaptureCompletionHandler captureCompletionHandler = new CaptureCompletionHandler();
 
     @Autowired
     private final SubjectService subjectService;
 
-    @Autowired
-    private final RecognitionService recognitionService;
-
-
     private final NBiometricClient client;
     private final FaceViewNode faceViewNode;
     private final FingerViewNode fingerViewNode;
+    private final NDeviceManager deviceManager;
 
-    private final TemplateCreationHandler templateCreationHandler = new TemplateCreationHandler();
 
-    public CitizenshipCard(SubjectService subjectService, NBiometricClient client, RecognitionService recognitionService) {
+    public CitizenshipCard(SubjectService subjectService, NBiometricClient client) {
         super();
         this.faceViewNode = new FaceViewNode();
         this.fingerViewNode = new FingerViewNode();
         this.subjectService = subjectService;
         this.client = client;
-        this.recognitionService = recognitionService;
+        this.nSubject = new NSubject();
+        client.setUseDeviceManager(true);
+        deviceManager = client.getDeviceManager();
+        deviceManager.setDeviceTypes(EnumSet.of(NDeviceType.FINGER_SCANNER));
+        deviceManager.initialize();
     }
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        listScan.valueProperty().addListener(new FingerSelectionListener());
         this.imageview.getChildren().add(faceViewNode);
         this.imageview.setAlignment(Pos.CENTER);
         this.fingerView.getChildren().add(fingerViewNode);
         this.fingerView.setAlignment(Pos.CENTER);
+        updateScannerList();
     }
 
-    @FXML
-    public void scan(ActionEvent event) throws IOException {
-        fc = new FileChooser();
-        fileFinger = fc.showOpenDialog(null);
-        if (fileFinger != null) {
-            NImage image = NImage.fromFile(fileFinger.getAbsolutePath());
-            NSubject subject = new NSubject();
-            NFinger finger = new NFinger();
-            finger.setImage(image);
-            subject.getFingers().add(finger);
-            this.fingerViewNode.setFinger(finger);
-            createTemplate();
+    public void updateScannerList() {
+        for (NDevice device : deviceManager.getDevices()) {
+            listScan.getItems().add((NFingerScanner) device);
         }
-    }
-
-    private void createTemplate() {
-        subject = new NSubject();
-        NFinger finger = new NFinger();
-        finger.setImage(fingerViewNode.getFinger().getImage());
-        subject.getFingers().add(finger);
-        client.createTemplate(subject, null, templateCreationHandler);
+        NFingerScanner scanner = (NFingerScanner) client.getFingerScanner();
+        if (scanner == null) {
+            listScan.getSelectionModel().selectFirst();
+        } else if (scanner != null) {
+            listScan.getSelectionModel().select(scanner);
+        }
     }
 
     @FXML
     public void chooseImage(ActionEvent event) throws IOException {
         fc = new FileChooser();
-        fileImage = fc.showOpenDialog(null);
-        if (fileImage != null) {
-            NImage image = NImage.fromFile(fileImage.getAbsolutePath());
-            NSubject subject = new NSubject();
+        fileFace = fc.showOpenDialog(null);
+        if (fileFace != null) {
+            NImage image = NImage.fromFile(fileFace.getAbsolutePath());
             NFace face = new NFace();
             face.setImage(image);
-            subject.getFaces().add(face);
+            nSubject.getFaces().add(face);
             this.faceViewNode.setFace(face);
+        }
+    }
+
+    @FXML
+    public void liveScan(ActionEvent event) throws IOException {
+        NFinger finger = new NFinger();
+        nSubject.getFingers().add(finger);
+        fingerViewNode.setFinger(finger);
+        fingerViewNode.setShownImage(NFingerViewBase.ShownImage.ORIGINAL);
+        NBiometricTask task = client.createTask(EnumSet.of(NBiometricOperation.CAPTURE), nSubject);
+        client.performTask(task,null,captureCompletionHandler);
+        scanning = true;
+
+        finger.setPosition(NFPosition.RIGHT_THUMB);
+        finger.setImage(nSubject.getFingers().get(0).getImage());
+    }
+
+
+    @FXML
+    public void scan(ActionEvent event) throws IOException {
+//        fingerView.getChildren().clear();
+        fc = new FileChooser();
+        fileFinger = fc.showOpenDialog(null);
+        if (fileFinger != null) {
+            NImage image = NImage.fromFile(fileFinger.getAbsolutePath());
+            NFinger finger = new NFinger();
+            // should set finger position
+            finger.setPosition(NFPosition.RIGHT_THUMB);
+            finger.setImage(image);
+            nSubject.getFingers().add(finger);
+            this.fingerViewNode.setFinger(finger);
         }
     }
 
@@ -156,16 +186,37 @@ public class CitizenshipCard implements Initializable {
                 .email(getEmail())
                 .build();
 
+        NBiometricTask task = client.createTask(
+                EnumSet.of(NBiometricOperation.DETECT_SEGMENTS,
+                        NBiometricOperation.ASSESS_QUALITY,
+                        NBiometricOperation.CREATE_TEMPLATE),
+                nSubject);
+        client.performTask(task);
+
+        System.out.println(task.getStatus().name());
+
+        if (task.getStatus() != NBiometricStatus.OK) {
+            // error exception;
+        }
 
         // create list images convert to base64
         List<String> base64Image = new ArrayList<>();
-        base64Image.add(NImageUtils.imageFileToBase64String(fileImage.getAbsolutePath()));
-        base64Image.add(NImageUtils.imageFileToBase64String(fileFinger.getAbsolutePath()));
+        if (fileFinger == null) {
+            base64Image.add(NImageUtils.imageFileToBase64String(fileFace.getAbsolutePath()));
+            base64Image.add(NImageUtils.NImageToBase64String(nSubject.getFingers().get(1).getImage()));
+        } else {
+            base64Image.add(NImageUtils.imageFileToBase64String(fileFace.getAbsolutePath()));
+            base64Image.add(NImageUtils.imageFileToBase64String(fileFinger.getAbsolutePath()));
+        }
+
+        // Get face and finger image quality
+        int faceImageQuality = Byte.toUnsignedInt(nSubject.getFaces().get(1).getObjects().get(0).getQuality());
+        int fingerImageQuality = Byte.toUnsignedInt(nSubject.getFingers().get(1).getObjects().get(0).getQuality());
 
         // list images have bioType insert to SubjectDto
         List<Image> images = new ArrayList<>();
         Image faceImage = Image.builder()
-                .quality(100)
+                .quality(faceImageQuality)
                 .bioType(BioType.FACE)
                 .format(ImageFormat.JPG)
                 .base64Image(base64Image.get(0))
@@ -174,7 +225,7 @@ public class CitizenshipCard implements Initializable {
                 .build();
 
         Image fingerImage = Image.builder()
-                .quality(100)
+                .quality(fingerImageQuality)
                 .bioType(BioType.FINGER)
                 .format(ImageFormat.JPG)
                 .base64Image(base64Image.get(1))
@@ -191,52 +242,47 @@ public class CitizenshipCard implements Initializable {
                 .images(images)
                 .build();
 
-        // create subject save to folder uploads and insert image to database
-        NSubject fileSubject = new NSubject();
-//        NSubject fileSubject = recognitionService.extractTemplate(base64Image.get(0), dto.getImages().get(0).getFormat());
-//        NSubject fingerSubject = recognitionService.extractTemplate(base64Image.get(1), dto.getImages().get(1).getFormat());
+        // create directory for save face and image files.
+        String imagePath = generateFaceImagePath();
+        String filePath = "./uploads/" + imagePath;
+        Path path = Paths.get(filePath);
+        if (Files.notExists(path)) {
+            Files.createDirectories(Paths.get(filePath));
+        }
+
+        List<ImageInfo> imageInfos = new ArrayList<>();
 
         for (int i = 0; i < dto.getImages().size(); i++) {
-            fileSubject = recognitionService.extractTemplate(images.get(i).getBase64Image(), dto.getImages().get(i).getFormat());
 
-            String imagePath = generateFaceImagePath();
-            String filePath = "./uploads/" + imagePath;
-            Path path = Paths.get(filePath);
-            if (Files.notExists(path)) {
-                Files.createDirectories(Paths.get(filePath));
-            }
             if (dto.getImages().get(i).getBioType().equals(BioType.FACE)) {
                 String fileName = dto.getBioGraphy().getNid() + "_face." + dto.getImages().get(i).getFormat().name();
 
-                switch (dto.getImages().get(i).getFormat().name()) {
+                switch (dto.getImages().get(1).getFormat().name()) {
                     case "JPG":
                     case "JPEG":
-                        fileSubject.getFaces().get(i).getImage().save(filePath + fileName, NImageFormat.getJPEG());
+                        nSubject.getFaces().get(1).getImage().save(filePath + fileName, NImageFormat.getJPEG());
                         break;
                     case "PNG":
-                        fileSubject.getFaces().get(i).getImage().save(filePath + fileName, NImageFormat.getPNG());
+                        nSubject.getFaces().get(1).getImage().save(filePath + fileName, NImageFormat.getPNG());
                         break;
                     case "WSQ":
-                        fileSubject.getFaces().get(i).getImage().save(filePath + fileName, NImageFormat.getWSQ());
+                        nSubject.getFaces().get(1).getImage().save(filePath + fileName, NImageFormat.getWSQ());
                         break;
                     case "TIFF":
-                        fileSubject.getFaces().get(i).getImage().save(filePath + fileName, NImageFormat.getTIFF());
+                        nSubject.getFaces().get(1).getImage().save(filePath + fileName, NImageFormat.getTIFF());
                         break;
                 }
-                int quality = fileSubject.getFaces().get(1).getObjects().get(i).getQuality();
 
-                ImageInfo imageInfo = ImageInfo.builder()
+                ImageInfo faceImageInfo = ImageInfo.builder()
                         .imageFormat(dto.getImages().get(i).getFormat())
                         .imageUrl("/" + imagePath + fileName)
-                        .imageQuality(quality)
+                        .imageQuality(faceImageQuality)
                         .bioType(dto.getImages().get(i).getBioType())
                         .pose(dto.getImages().get(i).getPose())
                         .enabled(true)
                         .build();
-                //                i need fix it
-                byte[] template = fileSubject.getTemplateBuffer().toByteArray();
-                Subject subject = subjectService.create(dto, imageInfo, template);
-                saveAlert(subject);
+                imageInfos.add(faceImageInfo);
+
             } else if (dto.getImages().get(i).getBioType().equals(BioType.FINGER)) {
 
                 String fileName = dto.getBioGraphy().getNid() + "_finger." + dto.getImages().get(i).getFormat().name();
@@ -244,39 +290,32 @@ public class CitizenshipCard implements Initializable {
                 switch (dto.getImages().get(i).getFormat().name()) {
                     case "JPG":
                     case "JPEG":
-                        fileSubject.getFingers().get(i).getImage().save(filePath + fileName, NImageFormat.getJPEG());
+                        nSubject.getFingers().get(1).getImage().save(filePath + fileName, NImageFormat.getJPEG());
                         break;
                     case "PNG":
-                        fileSubject.getFingers().get(i).getImage().save(filePath + fileName, NImageFormat.getPNG());
+                        nSubject.getFingers().get(1).getImage().save(filePath + fileName, NImageFormat.getPNG());
                         break;
                     case "WSQ":
-                        fileSubject.getFingers().get(i).getImage().save(filePath + fileName, NImageFormat.getWSQ());
+                        nSubject.getFingers().get(1).getImage().save(filePath + fileName, NImageFormat.getWSQ());
                         break;
                     case "TIFF":
-                        fileSubject.getFingers().get(i).getImage().save(filePath + fileName, NImageFormat.getTIFF());
+                        nSubject.getFingers().get(1).getImage().save(filePath + fileName, NImageFormat.getTIFF());
                         break;
                 }
-
-                int quality = fileSubject.getFingers().get(1).getObjects().get(i).getQuality();
-
-                ImageInfo imageInfo = ImageInfo.builder()
+                ImageInfo fingerImageInfo = ImageInfo.builder()
                         .imageFormat(dto.getImages().get(i).getFormat())
                         .imageUrl("/" + imagePath + fileName)
-                        .imageQuality(quality)
+                        .imageQuality(fingerImageQuality)
                         .bioType(dto.getImages().get(i).getBioType())
                         .pose(dto.getImages().get(i).getPose())
                         .enabled(true)
                         .build();
-
-//                i need fix it
-                byte[] template = fileSubject.getTemplateBuffer().toByteArray();
-                Subject subject = subjectService.create(dto, imageInfo, template);
-                saveAlert(subject);
+                imageInfos.add(fingerImageInfo);
             }
-//            byte[] template = fileSubject.getTemplateBuffer().toByteArray();
-//            Subject subject = subjectService.create(dto, imageInfo, template);
-//            saveAlert(subject);
         }
+        byte[] template = nSubject.getTemplateBuffer().toByteArray();
+        Subject subject = subjectService.create(dto, imageInfos, template);
+        saveAlert(subject);
         clearFields();
     }
 
@@ -295,7 +334,6 @@ public class CitizenshipCard implements Initializable {
     }
 
     private void clearFields() {
-        imageview.getChildren().clear();
         province.clear();
         email.clear();
         nid.clear();
@@ -368,6 +406,7 @@ public class CitizenshipCard implements Initializable {
         return phone.getText();
     }
 
+
     private class TemplateCreationHandler implements CompletionHandler<NBiometricStatus, Object> {
 
         @Override
@@ -387,10 +426,36 @@ public class CitizenshipCard implements Initializable {
 
     private void updateTemplateCreationStatus(boolean created) {
         if (created) {
-            fingerViewNode.setFinger(subject.getFingers().get(0));
+            fingerViewNode.setFinger(nSubject.getFingers().get(0));
         } else {
             fingerViewNode.setFinger(null);
         }
     }
 
+    private class FingerSelectionListener implements ChangeListener<NFingerScanner> {
+        @Override
+        public void changed(ObservableValue<? extends NFingerScanner> observableValue, NFingerScanner nFingerScanner, NFingerScanner newFinger) {
+            client.setFingerScanner(newFinger);
+        }
+    }
+
+    private class CaptureCompletionHandler implements CompletionHandler<NBiometricTask, Object> {
+
+        @Override
+        public void completed(final NBiometricTask result, final Object attachment) {
+            Platform.runLater(() -> {
+                scanning = false;
+                updateShownImage();
+            });
+        }
+
+        @Override
+        public void failed(final Throwable th, final Object attachment) {
+
+        }
+    }
+
+    private void updateShownImage() {
+        fingerViewNode.setShownImage(NFingerViewBase.ShownImage.ORIGINAL);
+    }
 }
