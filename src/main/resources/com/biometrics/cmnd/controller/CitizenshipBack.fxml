@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane prefHeight="500.0" prefWidth="740.0" xmlns="http://javafx.com/javafx/11.0.1"
+            xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.biometrics.cmnd.controller.CitizenshipBack">
+    <children>
+        <StackPane fx:id="viewFinger" layoutX="445.0" layoutY="14.0" prefHeight="132.0" prefWidth="282.0"
+                   style="-fx-border-color: gray;"/>
+        <ListView fx:id="listPositions" layoutX="14.0" layoutY="14.0" prefHeight="170.0" prefWidth="407.0"/>
+        <StackPane fx:id="leftLittle" layoutX="14.0" layoutY="201.0" prefHeight="132.0" prefWidth="121.0"
+                   style="-fx-border-color: gray;"/>
+        <StackPane fx:id="leftRing" layoutX="164.0" layoutY="201.0" prefHeight="132.0" prefWidth="121.0"
+                   style="-fx-border-color: gray;"/>
+        <StackPane fx:id="leftMiddle" layoutX="309.0" layoutY="201.0" prefHeight="132.0" prefWidth="121.0"
+                   style="-fx-border-color: gray;"/>
+        <StackPane fx:id="leftThumb" layoutX="604.0" layoutY="201.0" prefHeight="132.0" prefWidth="121.0"
+                   style="-fx-border-color: gray;"/>
+        <StackPane fx:id="leftIndex" layoutX="458.0" layoutY="201.0" prefHeight="132.0" prefWidth="121.0"
+                   style="-fx-border-color: gray;"/>
+        <StackPane fx:id="rightLittle" layoutX="14.0" layoutY="354.0" prefHeight="132.0" prefWidth="121.0"
+                   style="-fx-border-color: gray;"/>
+        <StackPane fx:id="rightRing" layoutX="164.0" layoutY="354.0" prefHeight="132.0" prefWidth="121.0"
+                   style="-fx-border-color: gray;"/>
+        <StackPane fx:id="rightMiddle" layoutX="309.0" layoutY="354.0" prefHeight="132.0" prefWidth="121.0"
+                   style="-fx-border-color: gray;"/>
+        <StackPane fx:id="rightThumb" layoutX="604.0" layoutY="354.0" prefHeight="132.0" prefWidth="121.0"
+                   style="-fx-border-color: gray;"/>
+        <StackPane fx:id="rightIndex" layoutX="458.0" layoutY="354.0" prefHeight="132.0" prefWidth="121.0"
+                   style="-fx-border-color: gray;"/>
+        <Button fx:id="scan" layoutX="639.0" layoutY="158.0" mnemonicParsing="false" onAction="#scan" text="Scan"/>
+        <Button fx:id="save" layoutX="685.0" layoutY="158.0" mnemonicParsing="false" onAction="#save" text="Save"/>
+        <ComboBox fx:id="fingerBox" layoutX="444.0" layoutY="158.0" prefHeight="26.0" prefWidth="143.0"/>
+        <Label fx:id="missingFinger" layoutX="444.0" prefHeight="18.0" prefWidth="282.0" textFill="RED"/>
+        <Button fx:id="roll" layoutX="592.0" layoutY="158.0" mnemonicParsing="false" onAction="#roll" prefHeight="26.0"
+                prefWidth="42.0" text="Roll"/>
+    </children>
+</AnchorPane>
