@@ -117,7 +117,7 @@ public class CitizenshipCard implements Initializable {
     }
 
     @FXML
-    public void chooseImage(ActionEvent event) throws IOException {
+    private void chooseImage(ActionEvent event) throws IOException {
         fc = new FileChooser();
         fileFace = fc.showOpenDialog(null);
         if (fileFace != null) {
@@ -130,13 +130,13 @@ public class CitizenshipCard implements Initializable {
     }
 
     @FXML
-    public void liveScan(ActionEvent event) throws IOException {
+    private void liveScan(ActionEvent event) throws IOException {
         NFinger finger = new NFinger();
         nSubject.getFingers().add(finger);
         fingerViewNode.setFinger(finger);
         fingerViewNode.setShownImage(NFingerViewBase.ShownImage.ORIGINAL);
         NBiometricTask task = client.createTask(EnumSet.of(NBiometricOperation.CAPTURE), nSubject);
-        client.performTask(task,null,captureCompletionHandler);
+        client.performTask(task, null, captureCompletionHandler);
         scanning = true;
 
         finger.setPosition(NFPosition.RIGHT_THUMB);
@@ -145,7 +145,7 @@ public class CitizenshipCard implements Initializable {
 
 
     @FXML
-    public void scan(ActionEvent event) throws IOException {
+    private void scan(ActionEvent event) throws IOException {
 //        fingerView.getChildren().clear();
         fc = new FileChooser();
         fileFinger = fc.showOpenDialog(null);
@@ -161,7 +161,7 @@ public class CitizenshipCard implements Initializable {
     }
 
     @FXML
-    public void save(ActionEvent event) throws Exception {
+    private void save(ActionEvent event) throws Exception {
         ObjectMapper mapper = new ObjectMapper();
         mapper.registerModule(new JavaTimeModule());
         mapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);

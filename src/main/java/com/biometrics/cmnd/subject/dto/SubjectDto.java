@@ -67,6 +67,7 @@ public class SubjectDto {
                     .street(this.contact.getAddress().getStreet())
                     .city(this.contact.getAddress().getCity())
                     .province(this.contact.getAddress().getProvince())
+                    .district(this.contact.getAddress().getDistrict())
                     .country(this.contact.getAddress().getCountry())
                     .zip(this.contact.getAddress().getZip())
                     .build();
@@ -81,11 +82,14 @@ public class SubjectDto {
         private BioGraphy bioGraphy;
         private Contact contact;
         private Image image;
+        private String createdBy;
+        private List<SubjectImage> subjectImages = new ArrayList<>();
 
         @Builder
         public SubjectRes(Subject subject) {
             this.subjectId = subject.getId();
             this.createdAt = subject.getCreatedDate();
+            this.createdBy = subject.getCreatedBy();
 
             this.bioGraphy = BioGraphy.builder()
                     .nid(subject.getNid().getValue())
@@ -100,19 +104,33 @@ public class SubjectDto {
                     .phoneNumber(subject.getPhoneNumber())
                     .address(subject.getAddress())
                     .build();
+
             // return only one image which is enabled.
-            List<SubjectImage> subjectImages = subject.getSubjectImages();
-            for (SubjectImage subjectImage : subject.getSubjectImages()) {
+            for (SubjectImage subjectImage : subject.getSubjectImages()){
                 if (subjectImage.getImageInfo().isEnabled()) {
                     String imageUrl = "./uploads" + subjectImage.getImageInfo().getImageUrl();
                     this.image = Image.builder()
                             .base64Image(NImageUtils.imageFileToBase64String(imageUrl))
                             .bioType(subjectImage.getImageInfo().getBioType())
                             .format(subjectImage.getImageInfo().getFormat())
+                            .pose(subjectImage.getImageInfo().getPose())
                             .quality(subjectImage.getImageInfo().getImageQuality())
                             .build();
                 }
+                this.subjectImages.add(subjectImage);
             }
+//            subjectImages = subject.getSubjectImages();
+//            for (SubjectImage subjectImage : subject.getSubjectImages()) {
+//                if (subjectImage.getImageInfo().isEnabled()) {
+//                    String imageUrl = "./uploads" + subjectImage.getImageInfo().getImageUrl();
+//                    this.image = Image.builder()
+//                            .base64Image(NImageUtils.imageFileToBase64String(imageUrl))
+//                            .bioType(subjectImage.getImageInfo().getBioType())
+//                            .format(subjectImage.getImageInfo().getFormat())
+//                            .quality(subjectImage.getImageInfo().getImageQuality())
+//                            .build();
+//                }
+//            }
         }
     }
 }

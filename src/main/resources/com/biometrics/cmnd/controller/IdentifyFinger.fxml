@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane fx:id="identifyDialog" prefHeight="478.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1"
+            xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.biometrics.cmnd.controller.IdentifyFinger">
+    <children>
+        <StackPane fx:id="fingerIdentify" layoutX="7.0" layoutY="8.0" prefHeight="170.0" prefWidth="222.0"
+                   style="-fx-border-color: gray;"/>
+        <AnchorPane layoutX="7.0" layoutY="263.0" prefHeight="208.0" prefWidth="587.0" style="-fx-border-color: gray;">
+            <children>
+                <TableView fx:id="viewIdentify" layoutX="4.0" layoutY="4.0" prefHeight="200.0" prefWidth="578.0"/>
+            </children>
+        </AnchorPane>
+        <Button fx:id="scan" layoutX="7.0" layoutY="226.0" mnemonicParsing="false" onAction="#scan" prefHeight="26.0"
+                prefWidth="93.0" text="Scan"/>
+        <ComboBox fx:id="cbbScan" layoutX="7.0" layoutY="184.0" prefHeight="26.0" prefWidth="222.0"/>
+        <Button fx:id="identify" layoutX="135.0" layoutY="226.0" mnemonicParsing="false" onAction="#identify"
+                prefHeight="26.0" prefWidth="93.0" text="Identify"/>
+    </children>
+</AnchorPane>

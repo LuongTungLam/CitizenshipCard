@@ -53,7 +53,7 @@ public class Subject extends Auditable {
     @OneToOne(mappedBy = "subject", fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true, optional = false)
     private BioTemplate bioTemplate;
 
-    @OneToMany(mappedBy = "subject", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "subject", fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
     private List<SubjectImage> subjectImages = new ArrayList<>();
 
     @Builder
@@ -86,6 +86,7 @@ public class Subject extends Auditable {
     }
 
     public Image getEnabledImage() {
+
         SubjectImage subjectImage = this.subjectImages.stream()
                 .filter(subImage -> subImage.getImageInfo().isEnabled())
                 .findFirst().orElseThrow(() -> new EnabledSubjectImageNotFoundException(this.getId()));
@@ -96,6 +97,7 @@ public class Subject extends Auditable {
                 .bioType(subjectImage.getImageInfo().getBioType())
                 .quality(subjectImage.getImageInfo().getImageQuality())
                 .build();
+
         return image;
     }
 

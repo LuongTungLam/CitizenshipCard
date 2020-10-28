@@ -8,7 +8,7 @@
     <tabs>
         <Tab closable="false" text="Add Subject">
             <content>
-                <AnchorPane prefHeight="500.0" prefWidth="740.0">
+                <AnchorPane prefHeight="720.0" prefWidth="740.0">
                     <children>
                         <AnchorPane prefHeight="500.0" prefWidth="700.0" AnchorPane.bottomAnchor="0.0"
                                     AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
@@ -139,7 +139,8 @@
                                                 onAction="#scan" text="Choose"/>
                                         <Button fx:id="liveScan" layoutX="173.0" layoutY="469.0" mnemonicParsing="false"
                                                 onAction="#liveScan" text="Scan"/>
-                                        <ComboBox fx:id="listScan" layoutX="14.0" layoutY="469.0" prefHeight="25.0" prefWidth="92.0"/>
+                                        <ComboBox fx:id="listScan" layoutX="14.0" layoutY="469.0" prefHeight="25.0"
+                                                  prefWidth="92.0"/>
                                     </children>
                                 </Pane>
                             </children>
@@ -148,14 +149,14 @@
                 </AnchorPane>
             </content>
         </Tab>
-<!--        <Tab closable="false" text="All Subject">-->
-<!--            <content>-->
-<!--                &lt;!&ndash;            <fx:include source="AllSubject.fxml"/>&ndash;&gt;-->
-<!--            </content>-->
-<!--        </Tab>-->
-        <Tab closable="false" text="Citizenship Back">
+        <!--        <Tab closable="false" text="Citizenship Back">-->
+        <!--            <content>-->
+        <!--                <fx:include source="CitizenshipBack.fxml"/>-->
+        <!--            </content>-->
+        <!--        </Tab>-->
+        <Tab closable="false" text="Citizenship">
             <content>
-                <fx:include source="CitizenshipBack.fxml"/>
+                <fx:include source="AllSubject.fxml"/>
             </content>
         </Tab>
     </tabs>

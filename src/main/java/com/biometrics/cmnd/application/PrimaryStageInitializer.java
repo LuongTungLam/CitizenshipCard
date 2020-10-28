@@ -1,5 +1,6 @@
 package com.biometrics.cmnd.application;
 
+import com.biometrics.cmnd.controller.AllSubject;
 import com.biometrics.cmnd.controller.CitizenshipCard;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
@@ -22,7 +23,7 @@ public class PrimaryStageInitializer implements ApplicationListener<StageReadyEv
     @Override
     public void onApplicationEvent(StageReadyEvent readyEvent) {
         Stage stage = readyEvent.stage;
-        Scene scene = new Scene(fxWeaver.loadView(CitizenshipCard.class),740,529);
+        Scene scene = new Scene(fxWeaver.loadView(AllSubject.class),740,740);
         stage.setScene(scene);
         stage.show();
     }

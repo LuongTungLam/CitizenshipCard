@@ -1,39 +1,188 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane prefHeight="500.0" prefWidth="740.0" xmlns="http://javafx.com/javafx/11.0.1"
+<AnchorPane fx:id="addDialog" prefHeight="710.0" prefWidth="740.0" xmlns="http://javafx.com/javafx/11.0.1"
             xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.biometrics.cmnd.controller.CitizenshipBack">
     <children>
-        <StackPane fx:id="viewFinger" layoutX="445.0" layoutY="14.0" prefHeight="132.0" prefWidth="282.0"
+        <StackPane fx:id="viewFinger" layoutX="458.0" layoutY="11.0" prefHeight="175.0" prefWidth="269.0"
                    style="-fx-border-color: gray;"/>
-        <ListView fx:id="listPositions" layoutX="14.0" layoutY="14.0" prefHeight="170.0" prefWidth="407.0"/>
-        <StackPane fx:id="leftLittle" layoutX="14.0" layoutY="201.0" prefHeight="132.0" prefWidth="121.0"
+        <!--        <ListView fx:id="listPositions" layoutX="14.0" layoutY="14.0" prefHeight="170.0" prefWidth="407.0"/>-->
+        <StackPane fx:id="leftLittle" layoutX="14.0" layoutY="220.0" prefHeight="120.0" prefWidth="121.0"
                    style="-fx-border-color: gray;"/>
-        <StackPane fx:id="leftRing" layoutX="164.0" layoutY="201.0" prefHeight="132.0" prefWidth="121.0"
+        <StackPane fx:id="leftRing" layoutX="164.0" layoutY="220.0" prefHeight="120.0" prefWidth="121.0"
                    style="-fx-border-color: gray;"/>
-        <StackPane fx:id="leftMiddle" layoutX="309.0" layoutY="201.0" prefHeight="132.0" prefWidth="121.0"
+        <StackPane fx:id="leftMiddle" layoutX="309.0" layoutY="220.0" prefHeight="120.0" prefWidth="121.0"
                    style="-fx-border-color: gray;"/>
-        <StackPane fx:id="leftThumb" layoutX="604.0" layoutY="201.0" prefHeight="132.0" prefWidth="121.0"
+        <StackPane fx:id="leftThumb" layoutX="604.0" layoutY="220.0" prefHeight="120.0" prefWidth="121.0"
                    style="-fx-border-color: gray;"/>
-        <StackPane fx:id="leftIndex" layoutX="458.0" layoutY="201.0" prefHeight="132.0" prefWidth="121.0"
+        <StackPane fx:id="leftIndex" layoutX="458.0" layoutY="220.0" prefHeight="120.0" prefWidth="121.0"
                    style="-fx-border-color: gray;"/>
-        <StackPane fx:id="rightLittle" layoutX="14.0" layoutY="354.0" prefHeight="132.0" prefWidth="121.0"
+        <StackPane fx:id="rightLittle" layoutX="14.0" layoutY="366.0" prefHeight="120.0" prefWidth="121.0"
                    style="-fx-border-color: gray;"/>
-        <StackPane fx:id="rightRing" layoutX="164.0" layoutY="354.0" prefHeight="132.0" prefWidth="121.0"
+        <StackPane fx:id="rightRing" layoutX="164.0" layoutY="366.0" prefHeight="120.0" prefWidth="121.0"
                    style="-fx-border-color: gray;"/>
-        <StackPane fx:id="rightMiddle" layoutX="309.0" layoutY="354.0" prefHeight="132.0" prefWidth="121.0"
+        <StackPane fx:id="rightMiddle" layoutX="309.0" layoutY="366.0" prefHeight="120.0" prefWidth="121.0"
                    style="-fx-border-color: gray;"/>
-        <StackPane fx:id="rightThumb" layoutX="604.0" layoutY="354.0" prefHeight="132.0" prefWidth="121.0"
+        <StackPane fx:id="rightThumb" layoutX="604.0" layoutY="366.0" prefHeight="120.0" prefWidth="121.0"
                    style="-fx-border-color: gray;"/>
-        <StackPane fx:id="rightIndex" layoutX="458.0" layoutY="354.0" prefHeight="132.0" prefWidth="121.0"
+        <StackPane fx:id="rightIndex" layoutX="458.0" layoutY="366.0" prefHeight="120.0" prefWidth="121.0"
                    style="-fx-border-color: gray;"/>
-        <Button fx:id="scan" layoutX="639.0" layoutY="158.0" mnemonicParsing="false" onAction="#scan" text="Scan"/>
-        <Button fx:id="save" layoutX="685.0" layoutY="158.0" mnemonicParsing="false" onAction="#save" text="Save"/>
-        <ComboBox fx:id="fingerBox" layoutX="444.0" layoutY="158.0" prefHeight="26.0" prefWidth="143.0"/>
-        <Label fx:id="missingFinger" layoutX="444.0" prefHeight="18.0" prefWidth="282.0" textFill="RED"/>
-        <Button fx:id="roll" layoutX="592.0" layoutY="158.0" mnemonicParsing="false" onAction="#roll" prefHeight="26.0"
-                prefWidth="42.0" text="Roll"/>
+        <Button fx:id="scan" layoutX="399.0" layoutY="84.0" mnemonicParsing="false" onAction="#scan" prefHeight="25.0"
+                prefWidth="41.0" text="Scan"/>
+        <Button fx:id="save" layoutX="298.0" layoutY="84.0" mnemonicParsing="false" onAction="#save" prefHeight="25.0"
+                prefWidth="41.0" text="Save"/>
+        <ComboBox fx:id="fingerBox" layoutX="246.0" layoutY="25.0" prefHeight="26.0" prefWidth="194.0"/>
+        <Label fx:id="missingFinger" layoutX="444.0" layoutY="-3.0" prefHeight="18.0" prefWidth="282.0" textFill="RED"/>
+        <Button fx:id="roll" layoutX="350.0" layoutY="84.0" mnemonicParsing="false" onAction="#roll" prefHeight="26.0"
+                prefWidth="41.0" text="Roll"/>
+        <Label fx:id="lblLeftLittle" disable="true" layoutX="14.0" layoutY="203.0" prefHeight="19.0" prefWidth="121.0"
+               style="-fx-border-color: gray;" text="1. Left Little"/>
+        <Label fx:id="lblLeftRing" disable="true" layoutX="164.0" layoutY="203.0" prefHeight="19.0" prefWidth="121.0"
+               style="-fx-border-color: gray;" text="2. Left Ring"/>
+        <Label fx:id="lblLeftMiddle" disable="true" layoutX="309.0" layoutY="203.0" prefHeight="19.0" prefWidth="121.0"
+               style="-fx-border-color: gray;" text="3. Left Middle"/>
+        <Label fx:id="lblLeftIndex" disable="true" layoutX="458.0" layoutY="203.0" prefHeight="19.0" prefWidth="121.0"
+               style="-fx-border-color: gray;" text="4. Left Index"/>
+        <Label fx:id="lblLeftThumb" disable="true" layoutX="604.0" layoutY="203.0" prefHeight="19.0" prefWidth="121.0"
+               style="-fx-border-color: gray;" text="5. Left Thumb"/>
+        <Label fx:id="lblRightLittle" disable="true" layoutX="14.0" layoutY="348.0" prefHeight="19.0" prefWidth="121.0"
+               style="-fx-border-color: gray;" text="10. Right Little"/>
+        <Label fx:id="lblRightRing" disable="true" layoutX="164.0" layoutY="348.0" prefHeight="19.0" prefWidth="121.0"
+               style="-fx-border-color: gray;" text="9. Right Ring"/>
+        <Label fx:id="lblRightMiddle" disable="true" layoutX="309.0" layoutY="348.0" prefHeight="19.0" prefWidth="121.0"
+               style="-fx-border-color: gray;" text="8. Right Middle"/>
+        <Label fx:id="lblRightIndex" disable="true" layoutX="458.0" layoutY="348.0" prefHeight="19.0" prefWidth="121.0"
+               style="-fx-border-color: gray;" text="7. Right Index"/>
+        <Label fx:id="lblRightThumb" disable="true" layoutX="604.0" layoutY="348.0" prefHeight="19.0" prefWidth="121.0"
+               style="-fx-border-color: gray;" text="6. Right Thumb"/>
+        <StackPane fx:id="viewFace" layoutX="14.0" layoutY="11.0" prefHeight="175.0" prefWidth="213.0"
+                   style="-fx-border-color: gray;"/>
+        <Button fx:id="file" layoutX="246.0" layoutY="84.0" mnemonicParsing="false" onAction="#file" prefHeight="25.0"
+                prefWidth="41.0" text="File"/>
+        <AnchorPane layoutX="14.0" layoutY="492.0" prefHeight="209.0" prefWidth="712.0" style="-fx-border-color: gray;">
+            <children>
+                <Pane layoutX="9.0" layoutY="14.0" prefHeight="42.0" prefWidth="204.0">
+                    <children>
+                        <Label layoutX="8.0" layoutY="9.0" prefHeight="25.0" prefWidth="65.0" text="First Name"/>
+                        <TextField fx:id="tfFirstName" layoutX="86.0" layoutY="9.0" prefHeight="25.0"
+                                   prefWidth="111.0"/>
+                    </children>
+                    <opaqueInsets>
+                        <Insets/>
+                    </opaqueInsets>
+                </Pane>
+                <Pane layoutX="9.0" layoutY="56.0" prefHeight="42.0" prefWidth="204.0">
+                    <children>
+                        <Label layoutX="8.0" layoutY="9.0" prefHeight="25.0" prefWidth="65.0" text="Last Name"/>
+                        <TextField fx:id="tfLastName" layoutX="86.0" layoutY="9.0" prefHeight="25.0" prefWidth="111.0"/>
+                    </children>
+                    <opaqueInsets>
+                        <Insets/>
+                    </opaqueInsets>
+                </Pane>
+                <Pane layoutX="9.0" layoutY="98.0" prefHeight="42.0" prefWidth="204.0">
+                    <children>
+                        <Label layoutX="8.0" layoutY="9.0" prefHeight="25.0" prefWidth="65.0" text="City"/>
+                        <TextField fx:id="tfCity" layoutX="86.0" layoutY="9.0" prefHeight="25.0" prefWidth="111.0"/>
+                    </children>
+                    <opaqueInsets>
+                        <Insets/>
+                    </opaqueInsets>
+                </Pane>
+                <Pane layoutX="9.0" layoutY="140.0" prefHeight="42.0" prefWidth="204.0">
+                    <children>
+                        <Label layoutX="8.0" layoutY="9.0" prefHeight="25.0" prefWidth="65.0" text="Province"/>
+                        <TextField fx:id="tfProvince" layoutX="86.0" layoutY="9.0" prefHeight="25.0" prefWidth="111.0"/>
+                    </children>
+                    <opaqueInsets>
+                        <Insets/>
+                    </opaqueInsets>
+                </Pane>
+                <Pane layoutX="254.0" layoutY="14.0" prefHeight="42.0" prefWidth="204.0">
+                    <children>
+                        <Label layoutX="8.0" layoutY="9.0" prefHeight="25.0" prefWidth="65.0" text="District"/>
+                        <TextField fx:id="tfDistrict" layoutX="86.0" layoutY="9.0" prefHeight="25.0" prefWidth="111.0"/>
+                    </children>
+                    <opaqueInsets>
+                        <Insets/>
+                    </opaqueInsets>
+                </Pane>
+                <Pane layoutX="254.0" layoutY="56.0" prefHeight="42.0" prefWidth="204.0">
+                    <children>
+                        <Label layoutX="8.0" layoutY="9.0" prefHeight="25.0" prefWidth="65.0" text="Country"/>
+                        <TextField fx:id="tfCountry" layoutX="86.0" layoutY="9.0" prefHeight="25.0" prefWidth="111.0"/>
+                    </children>
+                    <opaqueInsets>
+                        <Insets/>
+                    </opaqueInsets>
+                </Pane>
+                <Pane layoutX="254.0" layoutY="98.0" prefHeight="42.0" prefWidth="204.0">
+                    <children>
+                        <Label layoutX="8.0" layoutY="9.0" prefHeight="25.0" prefWidth="65.0" text="Street"/>
+                        <TextField fx:id="tfStreet" layoutX="86.0" layoutY="9.0" prefHeight="25.0" prefWidth="111.0"/>
+                    </children>
+                    <opaqueInsets>
+                        <Insets/>
+                    </opaqueInsets>
+                </Pane>
+                <Pane layoutX="254.0" layoutY="140.0" prefHeight="42.0" prefWidth="204.0">
+                    <children>
+                        <Label layoutX="8.0" layoutY="9.0" prefHeight="25.0" prefWidth="65.0" text="Zip"/>
+                        <TextField fx:id="tfZip" layoutX="86.0" layoutY="9.0" prefHeight="25.0" prefWidth="111.0"/>
+                    </children>
+                    <opaqueInsets>
+                        <Insets/>
+                    </opaqueInsets>
+                </Pane>
+                <Pane layoutX="494.0" layoutY="14.0" prefHeight="42.0" prefWidth="204.0">
+                    <children>
+                        <Label layoutX="8.0" layoutY="9.0" prefHeight="25.0" prefWidth="65.0" text="Email"/>
+                        <TextField fx:id="tfEmail" layoutX="86.0" layoutY="9.0" prefHeight="25.0" prefWidth="111.0"/>
+                    </children>
+                    <opaqueInsets>
+                        <Insets/>
+                    </opaqueInsets>
+                </Pane>
+                <Pane layoutX="494.0" layoutY="56.0" prefHeight="42.0" prefWidth="204.0">
+                    <children>
+                        <Label layoutX="8.0" layoutY="9.0" prefHeight="25.0" prefWidth="65.0" text="Phone"/>
+                        <TextField fx:id="tfPhone" layoutX="86.0" layoutY="9.0" prefHeight="25.0" prefWidth="111.0"/>
+                    </children>
+                    <opaqueInsets>
+                        <Insets/>
+                    </opaqueInsets>
+                </Pane>
+                <Pane layoutX="494.0" layoutY="98.0" prefHeight="42.0" prefWidth="204.0">
+                    <children>
+                        <Label layoutX="8.0" layoutY="9.0" prefHeight="25.0" prefWidth="65.0" text="Birth day"/>
+                        <DatePicker fx:id="dpBirthDay" layoutX="86.0" layoutY="9.0" prefHeight="25.0"
+                                    prefWidth="111.0"/>
+                    </children>
+                    <opaqueInsets>
+                        <Insets/>
+                    </opaqueInsets>
+                </Pane>
+                <Pane layoutX="494.0" layoutY="140.0" prefHeight="42.0" prefWidth="204.0">
+                    <children>
+                        <Label layoutX="8.0" layoutY="9.0" prefHeight="25.0" prefWidth="65.0" text="Nid"/>
+                        <TextField fx:id="tfNid" layoutX="86.0" layoutY="9.0" prefHeight="25.0" prefWidth="111.0"/>
+                    </children>
+                    <opaqueInsets>
+                        <Insets/>
+                    </opaqueInsets>
+                </Pane>
+                <RadioButton fx:id="rdbMale" layoutX="580.0" layoutY="187.0" mnemonicParsing="false" text="Male">
+                    <toggleGroup>
+                        <ToggleGroup fx:id="gender"/>
+                    </toggleGroup>
+                </RadioButton>
+                <RadioButton fx:id="rdbFemale" layoutX="637.0" layoutY="187.0" mnemonicParsing="false" text="Female"
+                             toggleGroup="$gender"/>
+                <Label layoutX="499.0" layoutY="183.0" prefHeight="25.0" prefWidth="65.0" text="Gender"/>
+            </children>
+        </AnchorPane>
     </children>
 </AnchorPane>
