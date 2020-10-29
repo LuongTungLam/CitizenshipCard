@@ -251,12 +251,6 @@ public class IdentifyFinger implements Initializable {
         }
         identifyList = FXCollections.observableList(candidateList);
         viewIdentify.setItems(identifyList);
-//        IdentifyDto.IdentificationRes dto = IdentifyDto.IdentificationRes.builder()
-//                .tokenImage(NImageUtils.NImageToBase64String(prodTokenImage))
-//                .imageFormat(ImageFormat.PNG)
-//                .candiateList(candidateList)
-//                .nlAttributes(prodSubject.getFaces().get(1).getObjects().get(0))
-//                .build();
     }
 
     private NSubject createSubject(String prob, ImageFormat imageFormat) {

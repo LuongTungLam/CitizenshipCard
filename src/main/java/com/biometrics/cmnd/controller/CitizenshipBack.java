@@ -112,6 +112,10 @@ public class CitizenshipBack implements Initializable {
 
     private File fileFace;
 
+    private List<FingerViewLittle> listViewFinger = new ArrayList<>();
+
+    private List<Label> listLblFinger = new ArrayList<>();
+
     @FXML
     private ListView<NFPosition> listPositions;
 
@@ -173,6 +177,8 @@ public class CitizenshipBack implements Initializable {
         updateScannerList();
         initFingerPositions();
         controlColor();
+        initFingerView();
+        intLblFinger();
         dpBirthDay.setConverter(new StringConverter<LocalDate>() {
                                     final DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
@@ -215,6 +221,32 @@ public class CitizenshipBack implements Initializable {
         });
     }
 
+    private void initFingerView() {
+        listViewFinger.add(viewLeftLittle);
+        listViewFinger.add(viewLeftRing);
+        listViewFinger.add(viewLeftMiddle);
+        listViewFinger.add(viewLeftIndex);
+        listViewFinger.add(viewLeftThumb);
+        listViewFinger.add(viewRightThumb);
+        listViewFinger.add(viewRightIndex);
+        listViewFinger.add(viewRightMiddle);
+        listViewFinger.add(viewRightRing);
+        listViewFinger.add(viewRightLittle);
+    }
+
+    private void intLblFinger() {
+        listLblFinger.add(lblLeftLittle);
+        listLblFinger.add(lblLeftRing);
+        listLblFinger.add(lblLeftMiddle);
+        listLblFinger.add(lblLeftIndex);
+        listLblFinger.add(lblLeftThumb);
+        listLblFinger.add(lblRightThumb);
+        listLblFinger.add(lblRightIndex);
+        listLblFinger.add(lblRightMiddle);
+        listLblFinger.add(lblRightRing);
+        listLblFinger.add(lblRightLittle);
+    }
+
     @FXML
     public void roll(ActionEvent event) {
         NFinger finger = new NFinger();
@@ -236,38 +268,23 @@ public class CitizenshipBack implements Initializable {
             face.setImage(image);
             subject.getFaces().add(face);
             this.viewFaces.setFace(face);
-            NBiometricTask task = client.createTask(EnumSet.of(NBiometricOperation.ASSESS_QUALITY, NBiometricOperation.CREATE_TEMPLATE, NBiometricOperation.SEGMENT), subject);
-            client.performTask(task);
-            Image imageFace = Image.builder()
-//                .quality(Byte.toUnsignedInt(subject.getFaces().get(1).getObjects().get(0).getQuality()))
-                    .quality(Byte.toUnsignedInt(subject.getFaces().get(1).getObjects().get(0).getQuality()))
-                    .bioType(BioType.FACE)
-                    .format(ImageFormat.JPG)
-                    .base64Image(NImageUtils.imageFileToBase64String(fileFace.getAbsolutePath()))
-                    .enabled(true)
-                    .pose(Pose.FACE_FRONT)
-                    .build();
-
-            images.add(imageFace);
         }
     }
 
     @FXML
     public void scan(ActionEvent event) {
         NFinger finger = new NFinger();
-        subject = new NSubject();
         subject.getFingers().add(finger);
         viewFingers.setFinger(finger);
         viewFingers.setShownImage(NFingerViewBase.ShownImage.ORIGINAL);
         segment();
         scanning = true;
-        finger.setImage(subject.getFingers().get(0).getImage());
     }
 
     private void segment() {
         client.setFingersDeterminePatternClass(true);
         client.setFingersCalculateNFIQ(true);
-        NBiometricTask task = client.createTask(EnumSet.of(NBiometricOperation.CAPTURE, NBiometricOperation.CREATE_TEMPLATE, NBiometricOperation.SEGMENT, NBiometricOperation.ASSESS_QUALITY), subject);
+        NBiometricTask task = client.createTask(EnumSet.of(NBiometricOperation.CAPTURE), subject);
         client.performTask(task, null, segmentHandler);
     }
 
@@ -285,78 +302,38 @@ public class CitizenshipBack implements Initializable {
     }
 
     private void showSegments() {
-        if (fingerImage.size() >= 10) {
-            Platform.runLater(() -> {
-                Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-                alert.setTitle("Count Finger Print");
-                alert.setHeaderText("Count Finger less than 10");
-                alert.showAndWait();
-            });
-            return;
-        }
-
-        if (subject.getFingers().get(1).getStatus() == NBiometricStatus.OK) {
-            int indexFinger = fingerImage.size();
-            switch (indexFinger) {
-                case 0:
-                    setSegmentInfo(subject.getFingers().get(1), lblLeftLittle, listPositions.getItems().get(0), viewLeftLittle);
-                    break;
-                case 1:
-                    setSegmentInfo(subject.getFingers().get(1), lblLeftRing, NFPosition.LEFT_RING_FINGER, viewLeftRing);
-                    break;
-                case 2:
-                    setSegmentInfo(subject.getFingers().get(1), lblLeftMiddle, NFPosition.LEFT_MIDDLE_FINGER, viewLeftMiddle);
-                    break;
-                case 3:
-                    setSegmentInfo(subject.getFingers().get(1), lblLeftIndex, NFPosition.LEFT_INDEX_FINGER, viewLeftIndex);
-                    break;
-                case 4:
-                    setSegmentInfo(subject.getFingers().get(1), lblLeftThumb, NFPosition.LEFT_THUMB, viewLeftThumb);
-                    break;
-                case 5:
-                    setSegmentInfo(subject.getFingers().get(1), lblRightThumb, NFPosition.RIGHT_THUMB, viewRightThumb);
-                    break;
-                case 6:
-                    setSegmentInfo(subject.getFingers().get(1), lblRightIndex, NFPosition.RIGHT_INDEX_FINGER, viewRightIndex);
-                    break;
-                case 7:
-                    setSegmentInfo(subject.getFingers().get(1), lblRightMiddle, NFPosition.RIGHT_MIDDLE_FINGER, viewRightMiddle);
-                    break;
-                case 8:
-                    setSegmentInfo(subject.getFingers().get(1), lblRightRing, NFPosition.RIGHT_RING_FINGER, viewRightRing);
-                    break;
-                case 9:
-                    setSegmentInfo(subject.getFingers().get(1), lblRightLittle, NFPosition.RIGHT_LITTLE_FINGER, viewRightLittle);
-                    break;
-            }
-        }
-        fingerImage.add(subject.getFingers().get(1));
-
-        //no need because we support convert NImage to base64
-        base64Image.add(NImageUtils.NImageToBase64String(subject.getFingers().get(0).getImage()));
-
-        int fingerImageQuality = Byte.toUnsignedInt(subject.getFingers().get(1).getObjects().get(0).getQuality());
-
-        NFPosition fingerPosition = subject.getFingers().get(1).getPosition();
-
-        Image imageFinger = Image.builder()
-                .quality(fingerImageQuality)
-                .bioType(BioType.FINGER)
-                .format(ImageFormat.JPG)
-                .base64Image(NImageUtils.NImageToBase64String(subject.getFingers().get(0).getImage()))
-                .enabled(true)
-                .pose(nfPositionToPose(fingerPosition))
-                .build();
-
-        images.add(imageFinger);
-
-        if (fingerImage.size() >= 10) {
-            Platform.runLater(() -> {
-                Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-                alert.setTitle("Count Finger Print");
-                alert.setHeaderText("Count Finger less than 10");
-                alert.showAndWait();
-            });
+        int indexFinger = subject.getFingers().size();
+        switch (indexFinger) {
+            case 1:
+                setSegmentInfo(subject.getFingers().get(0), listLblFinger.get(0), listPositions.getItems().get(0), listViewFinger.get(0));
+                break;
+            case 2:
+                setSegmentInfo(subject.getFingers().get(1), listLblFinger.get(1), listPositions.getItems().get(1), listViewFinger.get(1));
+                break;
+            case 3:
+                setSegmentInfo(subject.getFingers().get(2), listLblFinger.get(2), listPositions.getItems().get(2), listViewFinger.get(2));
+                break;
+            case 4:
+                setSegmentInfo(subject.getFingers().get(3), listLblFinger.get(3), listPositions.getItems().get(3), listViewFinger.get(3));
+                break;
+            case 5:
+                setSegmentInfo(subject.getFingers().get(4), listLblFinger.get(4), listPositions.getItems().get(4), listViewFinger.get(4));
+                break;
+            case 6:
+                setSegmentInfo(subject.getFingers().get(5), listLblFinger.get(5), listPositions.getItems().get(5), listViewFinger.get(5));
+                break;
+            case 7:
+                setSegmentInfo(subject.getFingers().get(6), listLblFinger.get(6), listPositions.getItems().get(6), listViewFinger.get(6));
+                break;
+            case 8:
+                setSegmentInfo(subject.getFingers().get(7), listLblFinger.get(7), listPositions.getItems().get(7), listViewFinger.get(7));
+                break;
+            case 9:
+                setSegmentInfo(subject.getFingers().get(8), listLblFinger.get(8), listPositions.getItems().get(8), listViewFinger.get(8));
+                break;
+            case 10:
+                setSegmentInfo(subject.getFingers().get(9), listLblFinger.get(9), listPositions.getItems().get(9), listViewFinger.get(9));
+                break;
         }
     }
 
@@ -414,7 +391,6 @@ public class CitizenshipBack implements Initializable {
 
     @FXML
     public void save(ActionEvent event) throws Exception {
-
         ObjectMapper mapper = new ObjectMapper();
         mapper.registerModule(new JavaTimeModule());
         mapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
@@ -442,6 +418,36 @@ public class CitizenshipBack implements Initializable {
                 .email(tfEmail.getText())
                 .build();
 
+        NBiometricTask task = client.createTask(
+                EnumSet.of(NBiometricOperation.CREATE_TEMPLATE, NBiometricOperation.ASSESS_QUALITY), subject);
+        client.performTask(task);
+
+        Image imageFace = Image.builder()
+                .quality(Byte.toUnsignedInt(subject.getFaces().get(1).getObjects().get(0).getQuality()))
+                .bioType(BioType.FACE)
+                .format(ImageFormat.JPG)
+                .base64Image(NImageUtils.imageFileToBase64String(fileFace.getAbsolutePath()))
+                .enabled(true)
+                .pose(Pose.FACE_FRONT)
+                .build();
+        images.add(imageFace);
+
+        for (int j = 0; j < subject.getFingers().size(); j++) {
+            int fingerImageQuality = Byte.toUnsignedInt(subject.getFingers().get(j).getObjects().get(0).getQuality());
+
+            NFPosition fingerPosition = subject.getFingers().get(j).getPosition();
+
+            Image imageFinger = Image.builder()
+                    .quality(fingerImageQuality)
+                    .bioType(BioType.FINGER)
+                    .format(ImageFormat.JPG)
+                    .base64Image(NImageUtils.NImageToBase64String(subject.getFingers().get(j).getImage()))
+                    .enabled(true)
+                    .pose(nfPositionToPose(fingerPosition))
+                    .build();
+            images.add(imageFinger);
+        }
+
         SubjectDto.CreateReq dto = SubjectDto.CreateReq.builder()
                 .bioGraphy(bioGraphy)
                 .contact(contact)
@@ -459,23 +465,21 @@ public class CitizenshipBack implements Initializable {
 
         for (int i = 0; i < dto.getImages().size(); i++) {
             if (dto.getImages().get(i).getBioType().equals(BioType.FACE)) {
-
                 String fileName = dto.getBioGraphy().getNid() + "_face." + dto.getImages().get(i).getFormat().name();
 
                 switch (dto.getImages().get(i).getFormat().name()) {
                     case "JPG":
                     case "JPEG":
-//                        subject.getFaces().get(i).getImage().save(filePath + fileName, NImageFormat.getJPEG());
-                        face.getImage().save(filePath + fileName, NImageFormat.getJPEG());
+                        subject.getFaces().get(i).getImage().save(filePath + fileName, NImageFormat.getJPEG());
                         break;
                     case "PNG":
-                        face.getImage().save(filePath + fileName, NImageFormat.getPNG());
+                        subject.getFaces().get(i).getImage().save(filePath + fileName, NImageFormat.getPNG());
                         break;
                     case "WSQ":
-                        face.getImage().save(filePath + fileName, NImageFormat.getWSQ());
+                        subject.getFaces().get(i).getImage().save(filePath + fileName, NImageFormat.getWSQ());
                         break;
                     case "TIFF":
-                        face.getImage().save(filePath + fileName, NImageFormat.getTIFF());
+                        subject.getFaces().get(i).getImage().save(filePath + fileName, NImageFormat.getTIFF());
                         break;
                 }
                 ImageInfo faceImageInfo = ImageInfo.builder()
@@ -488,33 +492,34 @@ public class CitizenshipBack implements Initializable {
                         .build();
                 imageInfos.add(faceImageInfo);
             } else if (dto.getImages().get(i).getBioType().equals(BioType.FINGER)) {
-                String fileName = dto.getBioGraphy().getNid() + fingerImage.get(i - 1).getPosition().name() + "." + dto.getImages().get(i).getFormat().name();
+                for (int k = 0; k < subject.getFingers().size(); k++) {
+                    String fileName = dto.getBioGraphy().getNid() + subject.getFingers().get(k).getPosition().name() + "." + dto.getImages().get(i).getFormat().name();
+                    switch (dto.getImages().get(i).getFormat().name()) {
+                        case "JPG":
+                        case "JPEG":
+                            subject.getFingers().get(k).getImage().save(filePath + fileName, NImageFormat.getJPEG());
+                            break;
+                        case "PNG":
+                            subject.getFingers().get(k).getImage().save(filePath + fileName, NImageFormat.getPNG());
+                            break;
+                        case "WSQ":
+                            subject.getFingers().get(k).getImage().save(filePath + fileName, NImageFormat.getWSQ());
+                            break;
+                        case "TIFF":
+                            subject.getFingers().get(k).getImage().save(filePath + fileName, NImageFormat.getTIFF());
+                            break;
+                    }
 
-                switch (dto.getImages().get(i).getFormat().name()) {
-                    case "JPG":
-                    case "JPEG":
-                        fingerImage.get(i - 1).getImage().save(filePath + fileName, NImageFormat.getJPEG());
-                        break;
-                    case "PNG":
-                        fingerImage.get(i - 1).getImage().save(filePath + fileName, NImageFormat.getPNG());
-                        break;
-                    case "WSQ":
-                        fingerImage.get(i - 1).getImage().save(filePath + fileName, NImageFormat.getWSQ());
-                        break;
-                    case "TIFF":
-                        fingerImage.get(i - 1).getImage().save(filePath + fileName, NImageFormat.getTIFF());
-                        break;
+                    ImageInfo faceImageInfo = ImageInfo.builder()
+                            .imageFormat(dto.getImages().get(i).getFormat())
+                            .imageUrl("/" + imagePath + fileName)
+                            .imageQuality(dto.getImages().get(i).getQuality())
+                            .bioType(dto.getImages().get(i).getBioType())
+                            .pose(dto.getImages().get(i).getPose())
+                            .enabled(true)
+                            .build();
+                    imageInfos.add(faceImageInfo);
                 }
-
-                ImageInfo faceImageInfo = ImageInfo.builder()
-                        .imageFormat(dto.getImages().get(i).getFormat())
-                        .imageUrl("/" + imagePath + fileName)
-                        .imageQuality(dto.getImages().get(i).getQuality())
-                        .bioType(dto.getImages().get(i).getBioType())
-                        .pose(dto.getImages().get(i).getPose())
-                        .enabled(true)
-                        .build();
-                imageInfos.add(faceImageInfo);
             }
         }
 
@@ -543,7 +548,6 @@ public class CitizenshipBack implements Initializable {
             fingerBox.getSelectionModel().select(scanner);
         }
     }
-
 
     private class FingerSelectionListener implements ChangeListener<NFingerScanner> {
         @Override
