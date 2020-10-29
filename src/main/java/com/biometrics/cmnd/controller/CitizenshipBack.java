@@ -492,34 +492,32 @@ public class CitizenshipBack implements Initializable {
                         .build();
                 imageInfos.add(faceImageInfo);
             } else if (dto.getImages().get(i).getBioType().equals(BioType.FINGER)) {
-                for (int k = 0; k < subject.getFingers().size(); k++) {
-                    String fileName = dto.getBioGraphy().getNid() + subject.getFingers().get(k).getPosition().name() + "." + dto.getImages().get(i).getFormat().name();
-                    switch (dto.getImages().get(i).getFormat().name()) {
-                        case "JPG":
-                        case "JPEG":
-                            subject.getFingers().get(k).getImage().save(filePath + fileName, NImageFormat.getJPEG());
-                            break;
-                        case "PNG":
-                            subject.getFingers().get(k).getImage().save(filePath + fileName, NImageFormat.getPNG());
-                            break;
-                        case "WSQ":
-                            subject.getFingers().get(k).getImage().save(filePath + fileName, NImageFormat.getWSQ());
-                            break;
-                        case "TIFF":
-                            subject.getFingers().get(k).getImage().save(filePath + fileName, NImageFormat.getTIFF());
-                            break;
-                    }
-
-                    ImageInfo faceImageInfo = ImageInfo.builder()
-                            .imageFormat(dto.getImages().get(i).getFormat())
-                            .imageUrl("/" + imagePath + fileName)
-                            .imageQuality(dto.getImages().get(i).getQuality())
-                            .bioType(dto.getImages().get(i).getBioType())
-                            .pose(dto.getImages().get(i).getPose())
-                            .enabled(true)
-                            .build();
-                    imageInfos.add(faceImageInfo);
+                String fileName = dto.getBioGraphy().getNid() + dto.getImages().get(i).getPose().name() + "." + dto.getImages().get(i).getFormat().name();
+                switch (dto.getImages().get(i).getFormat().name()) {
+                    case "JPG":
+                    case "JPEG":
+                        subject.getFingers().get(i-1).getImage().save(filePath + fileName, NImageFormat.getJPEG());
+                        break;
+                    case "PNG":
+                        subject.getFingers().get(i-1).getImage().save(filePath + fileName, NImageFormat.getPNG());
+                        break;
+                    case "WSQ":
+                        subject.getFingers().get(i-1).getImage().save(filePath + fileName, NImageFormat.getWSQ());
+                        break;
+                    case "TIFF":
+                        subject.getFingers().get(i-1).getImage().save(filePath + fileName, NImageFormat.getTIFF());
+                        break;
                 }
+
+                ImageInfo faceImageInfo = ImageInfo.builder()
+                        .imageFormat(dto.getImages().get(i).getFormat())
+                        .imageUrl("/" + imagePath + fileName)
+                        .imageQuality(dto.getImages().get(i).getQuality())
+                        .bioType(dto.getImages().get(i).getBioType())
+                        .pose(dto.getImages().get(i).getPose())
+                        .enabled(true)
+                        .build();
+                imageInfos.add(faceImageInfo);
             }
         }
 
