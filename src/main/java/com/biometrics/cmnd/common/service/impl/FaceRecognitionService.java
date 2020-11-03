@@ -9,6 +9,8 @@ import com.neurotec.biometrics.*;
 import com.neurotec.biometrics.client.NBiometricClient;
 import com.neurotec.images.NImage;
 import com.neurotec.io.NBuffer;
+import javafx.application.Platform;
+import javafx.scene.control.Alert;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -183,7 +185,12 @@ public class FaceRecognitionService implements RecognitionService {
                     results.add(result);
                 }
             } else if (status == NBiometricStatus.MATCH_NOT_FOUND) {
-                System.out.format("Match not found");
+                Platform.runLater(() -> {
+                    Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+                    alert.setTitle("Login Failed");
+                    alert.setHeaderText("Not Found Finger !");
+                    alert.showAndWait();
+                });
             } else {
                 System.out.format("Identification failed. Status: %s\n", status);
                 System.exit(-1);
@@ -219,7 +226,7 @@ public class FaceRecognitionService implements RecognitionService {
         NSubject subject = new NSubject();
         NTemplate template = new NTemplate(NBuffer.fromArray(refTemplate));
         if (template.getFaces() != null) {
-            for(NLRecord record : template.getFaces().getRecords()) {
+            for (NLRecord record : template.getFaces().getRecords()) {
                 log.info("Quality : " + record.getQuality());
             }
         }
@@ -232,7 +239,7 @@ public class FaceRecognitionService implements RecognitionService {
         NSubject subject = new NSubject();
         NTemplate template = new NTemplate(NBuffer.fromArray(refTemplate));
         if (template.getFaces() != null) {
-            for(NLRecord record : template.getFaces().getRecords()) {
+            for (NLRecord record : template.getFaces().getRecords()) {
                 log.info("Quality : " + record.getQuality());
             }
         }
