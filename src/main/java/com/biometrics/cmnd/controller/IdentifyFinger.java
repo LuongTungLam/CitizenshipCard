@@ -4,6 +4,7 @@ import com.biometrics.cmnd.common.dto.BioGraphy;
 import com.biometrics.cmnd.common.dto.BioType;
 import com.biometrics.cmnd.common.dto.Image;
 import com.biometrics.cmnd.common.model.ImageFormat;
+import com.biometrics.cmnd.common.model.Pose;
 import com.biometrics.cmnd.common.nxView.FingerViewLittle;
 import com.biometrics.cmnd.common.service.RecognitionService;
 import com.biometrics.cmnd.identify.dto.CandidateListItem;
@@ -39,6 +40,7 @@ import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
+import javafx.scene.image.WritableImage;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
@@ -135,26 +137,37 @@ public class IdentifyFinger implements Initializable {
                 return new SimpleObjectProperty(score.getValue().getScore());
             }
         });
+
         TableColumn<CandidateListItem, javafx.scene.image.Image> image = new TableColumn<>("Image");
         image.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<CandidateListItem, javafx.scene.image.Image>, ObservableValue<javafx.scene.image.Image>>() {
             @Override
             public ObservableValue<javafx.scene.image.Image> call(TableColumn.CellDataFeatures<CandidateListItem, javafx.scene.image.Image> images) {
-                image.setCellFactory(col -> {
-                    final ImageView viewFaceIdentify = new ImageView();
-                    TableCell<CandidateListItem, javafx.scene.image.Image> cell = new TableCell<>();
-                    viewFaceIdentify.setFitWidth(50);
-                    viewFaceIdentify.setFitHeight(50);
-                    for (int i = 0; i < images.getValue().getImage().size(); i++) {
-                        if (images.getValue().getImage().get(i).getBioType().equals(BioType.FACE)) {
-                            NImage fileName = NImageUtils.base64StringToNImage(images.getValue().getImage().get(i).getBase64Image(), String.valueOf(images.getValue().getImage().get(i).getFormat()));
-                            javafx.scene.image.Image imageFormat = NImageUtils.nImageToFxImage(fileName);
-                            viewFaceIdentify.setImage(imageFormat);
-                            cell.setGraphic(viewFaceIdentify);
+                ImageView viewFaceIdentify = new ImageView();
+                viewFaceIdentify.setFitWidth(50);
+                viewFaceIdentify.setFitHeight(50);
+                Subject subject = subjectService.findById(images.getValue().getSubjectId());
+                for (int i = 0; i < subject.getSubjectImages().size(); i++) {
+                    if (subject.getSubjectImages().get(i).getImageInfo().getPose().equals(Pose.FACE_FRONT)) {
+                        try {
+                            File file = new File("uploads" + subject.getSubjectImages().get(i).getImageInfo().getImageUrl());
+                            viewFaceIdentify.setImage(new javafx.scene.image.Image(file.toURI().toURL().toExternalForm()));
+                        } catch (MalformedURLException e) {
+                            e.printStackTrace();
                         }
                     }
-                    return cell;
-                });
-                return new SimpleObjectProperty(images);
+                }
+                return new SimpleObjectProperty(viewFaceIdentify);
+            }
+        });
+        TableColumn<CandidateListItem, String> pose = new TableColumn<>("Pose");
+        pose.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<CandidateListItem, String>, ObservableValue<String>>() {
+            @Override
+            public ObservableValue<String> call(TableColumn.CellDataFeatures<CandidateListItem, String> poses) {
+                Subject subject = subjectService.findById(poses.getValue().getSubjectId());
+                for (int i = 0; i < subject.getSubjectImages().size(); i++) {
+
+                }
+                return null;
             }
         });
         viewIdentify.getColumns().addAll(id, score, image);
@@ -220,7 +233,6 @@ public class IdentifyFinger implements Initializable {
         // step 6: return results
         for (int i = 0; i < matchingResults.size(); i++) {
             Subject subject = subjectService.findById(Long.parseLong(matchingResults.get(i).getId()));
-
             BioGraphy bioGraphy = BioGraphy.builder()
                     .nid(subject.getNid().getValue())
                     .gender(subject.getGender())
@@ -240,7 +252,6 @@ public class IdentifyFinger implements Initializable {
                         .build();
                 imageList.add(image);
             }
-
             CandidateListItem candidateListItem = CandidateListItem.builder()
                     .subjectId(Long.parseLong(matchingResults.get(i).getId()))
                     .score(matchingResults.get(i).getScore())
@@ -249,6 +260,7 @@ public class IdentifyFinger implements Initializable {
                     .build();
             candidateList.add(candidateListItem);
         }
+
         identifyList = FXCollections.observableList(candidateList);
         viewIdentify.setItems(identifyList);
     }
