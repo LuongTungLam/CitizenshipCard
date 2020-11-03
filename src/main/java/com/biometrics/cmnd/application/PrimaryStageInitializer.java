@@ -2,8 +2,6 @@ package com.biometrics.cmnd.application;
 
 import com.biometrics.cmnd.controller.AllSubject;
 import com.biometrics.cmnd.controller.CitizenshipCard;
-import com.biometrics.cmnd.controller.IdentifyFinger;
-import com.biometrics.cmnd.controller.LoginApp;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import net.rgielen.fxweaver.core.FxWeaver;
@@ -21,10 +19,11 @@ public class PrimaryStageInitializer implements ApplicationListener<StageReadyEv
         this.fxWeaver = fxWeaver;
     }
 
+
     @Override
     public void onApplicationEvent(StageReadyEvent readyEvent) {
         Stage stage = readyEvent.stage;
-        Scene scene = new Scene(fxWeaver.loadView(LoginApp.class));
+        Scene scene = new Scene(fxWeaver.loadView(AllSubject.class),740,740);
         stage.setScene(scene);
         stage.show();
     }

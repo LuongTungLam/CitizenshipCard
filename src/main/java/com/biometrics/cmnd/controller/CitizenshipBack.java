@@ -23,27 +23,26 @@ import com.neurotec.devices.NDeviceType;
 import com.neurotec.devices.NFingerScanner;
 import com.neurotec.images.NImage;
 import com.neurotec.images.NImageFormat;
+import com.neurotec.images.NImageRotateFlipType;
 import com.neurotec.util.concurrent.CompletionHandler;
 import javafx.application.Platform;
-import javafx.beans.property.BooleanProperty;
-import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.control.cell.CheckBoxListCell;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
-import javafx.util.Callback;
 import javafx.util.StringConverter;
 import lombok.extern.slf4j.Slf4j;
 import net.rgielen.fxweaver.core.FxWeaver;
@@ -111,13 +110,11 @@ public class CitizenshipBack implements Initializable {
 
     private List<Image> images = new ArrayList<>();
 
-    private List<NFPosition> listMissingFinger = new ArrayList<>();
-
     private File fileFace;
 
     private List<FingerViewLittle> listViewFinger = new ArrayList<>();
 
-    private List<String> listLblFinger = new ArrayList<>();
+    private List<Label> listLblFinger = new ArrayList<>();
 
     @FXML
     private ListView<NFPosition> listPositions;
@@ -181,6 +178,7 @@ public class CitizenshipBack implements Initializable {
         initFingerPositions();
         controlColor();
         initFingerView();
+        intLblFinger();
         dpBirthDay.setConverter(new StringConverter<LocalDate>() {
                                     final DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
@@ -210,23 +208,17 @@ public class CitizenshipBack implements Initializable {
                 NFPosition.RIGHT_RING_FINGER,
                 NFPosition.RIGHT_LITTLE_FINGER
         );
-        listMissingFinger.addAll(positions);
         listPositions.getItems().addAll(positions);
-        listPositions.setCellFactory(CheckBoxListCell.forListView(new Callback<NFPosition, ObservableValue<Boolean>>() {
+        listPositions.getSelectionModel().selectFirst();
+        listPositions.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
-            public ObservableValue<Boolean> call(NFPosition position) {
-                BooleanProperty property = new SimpleBooleanProperty();
-                property.addListener((obs, wasSelected, isNowSelected) -> {
-                    if (isNowSelected) {
-                        listMissingFinger.remove(position);
-
-                    } else {
-                        listMissingFinger.add(position);
-                    }
-                });
-                return property;
+            public void handle(MouseEvent mouseEvent) {
+                listPositions.getSelectionModel().getSelectedItem();
+//                if (listPositions.getSelectionModel().getSelectedItem().getValue() == ){
+//                    leftLittle.isDisable();
+//                }
             }
-        }));
+        });
     }
 
     private void initFingerView() {
@@ -243,16 +235,16 @@ public class CitizenshipBack implements Initializable {
     }
 
     private void intLblFinger() {
-//        lblLeftLittle.setText(listMissingFinger.get(0).toString());
-//        lblLeftRing.setText(listMissingFinger.get(1).toString());
-//        lblLeftMiddle.setText(listMissingFinger.get(2).toString());
-//        lblLeftIndex.setText(listMissingFinger.get(3).toString());
-//        lblLeftThumb.setText(listMissingFinger.get(4).toString());
-//        lblRightThumb.setText(listMissingFinger.get(5).toString());
-//        lblRightIndex.setText(listMissingFinger.get(6).toString());
-//        lblRightMiddle.setText(listMissingFinger.get(7).toString());
-//        lblRightRing.setText(listMissingFinger.get(8).toString());
-//        lblRightLittle.setText(listMissingFinger.get(9).toString());
+        listLblFinger.add(lblLeftLittle);
+        listLblFinger.add(lblLeftRing);
+        listLblFinger.add(lblLeftMiddle);
+        listLblFinger.add(lblLeftIndex);
+        listLblFinger.add(lblLeftThumb);
+        listLblFinger.add(lblRightThumb);
+        listLblFinger.add(lblRightIndex);
+        listLblFinger.add(lblRightMiddle);
+        listLblFinger.add(lblRightRing);
+        listLblFinger.add(lblRightLittle);
     }
 
     @FXML
@@ -311,52 +303,43 @@ public class CitizenshipBack implements Initializable {
 
     private void showSegments() {
         int indexFinger = subject.getFingers().size();
-
-        if (listMissingFinger.size() < indexFinger) {
-            Alert alert = new Alert(Alert.AlertType.INFORMATION);
-            alert.setTitle("Successfully.");
-            alert.setHeaderText(null);
-            alert.setContentText("Enough number of fingers");
-            alert.showAndWait();
-            return;
-        }
-
         switch (indexFinger) {
             case 1:
-                setSegmentInfo(subject.getFingers().get(0), new Label(listMissingFinger.get(0).toString()), listMissingFinger.get(0), listViewFinger.get(0));
+                setSegmentInfo(subject.getFingers().get(0), listLblFinger.get(0), listPositions.getItems().get(0), listViewFinger.get(0));
                 break;
             case 2:
-                setSegmentInfo(subject.getFingers().get(1), new Label(listMissingFinger.get(1).toString()), listMissingFinger.get(1), listViewFinger.get(1));
+                setSegmentInfo(subject.getFingers().get(1), listLblFinger.get(1), listPositions.getItems().get(1), listViewFinger.get(1));
                 break;
             case 3:
-                setSegmentInfo(subject.getFingers().get(2), new Label(listMissingFinger.get(2).toString()), listMissingFinger.get(2), listViewFinger.get(2));
+                setSegmentInfo(subject.getFingers().get(2), listLblFinger.get(2), listPositions.getItems().get(2), listViewFinger.get(2));
                 break;
             case 4:
-                setSegmentInfo(subject.getFingers().get(3), new Label(listMissingFinger.get(3).toString()), listMissingFinger.get(3), listViewFinger.get(3));
+                setSegmentInfo(subject.getFingers().get(3), listLblFinger.get(3), listPositions.getItems().get(3), listViewFinger.get(3));
                 break;
             case 5:
-                setSegmentInfo(subject.getFingers().get(4), new Label(listMissingFinger.get(4).toString()), listMissingFinger.get(4), listViewFinger.get(4));
+                setSegmentInfo(subject.getFingers().get(4), listLblFinger.get(4), listPositions.getItems().get(4), listViewFinger.get(4));
                 break;
             case 6:
-                setSegmentInfo(subject.getFingers().get(5), new Label(listMissingFinger.get(5).toString()), listMissingFinger.get(5), listViewFinger.get(5));
+                setSegmentInfo(subject.getFingers().get(5), listLblFinger.get(5), listPositions.getItems().get(5), listViewFinger.get(5));
                 break;
             case 7:
-                setSegmentInfo(subject.getFingers().get(6), new Label(listMissingFinger.get(6).toString()), listMissingFinger.get(6), listViewFinger.get(6));
+                setSegmentInfo(subject.getFingers().get(6), listLblFinger.get(6), listPositions.getItems().get(6), listViewFinger.get(6));
                 break;
             case 8:
-                setSegmentInfo(subject.getFingers().get(7), new Label(listMissingFinger.get(7).toString()), listMissingFinger.get(7), listViewFinger.get(7));
+                setSegmentInfo(subject.getFingers().get(7), listLblFinger.get(7), listPositions.getItems().get(7), listViewFinger.get(7));
                 break;
             case 9:
-                setSegmentInfo(subject.getFingers().get(8), new Label(listMissingFinger.get(8).toString()), listMissingFinger.get(8), listViewFinger.get(8));
+                setSegmentInfo(subject.getFingers().get(8), listLblFinger.get(8), listPositions.getItems().get(8), listViewFinger.get(8));
                 break;
             case 10:
-                setSegmentInfo(subject.getFingers().get(9), new Label(listMissingFinger.get(9).toString()), listMissingFinger.get(9), listViewFinger.get(9));
+                setSegmentInfo(subject.getFingers().get(9), listLblFinger.get(9), listPositions.getItems().get(9), listViewFinger.get(9));
                 break;
         }
     }
 
     private Pose nfPositionToPose(NFPosition nfPosition) {
         Pose pose = null;
+
         switch (nfPosition) {
             case LEFT_LITTLE_FINGER:
                 pose = Pose.FINGER_LEFT_LITTLE;
@@ -513,16 +496,16 @@ public class CitizenshipBack implements Initializable {
                 switch (dto.getImages().get(i).getFormat().name()) {
                     case "JPG":
                     case "JPEG":
-                        subject.getFingers().get(i - 1).getImage().save(filePath + fileName, NImageFormat.getJPEG());
+                        subject.getFingers().get(i-1).getImage().save(filePath + fileName, NImageFormat.getJPEG());
                         break;
                     case "PNG":
-                        subject.getFingers().get(i - 1).getImage().save(filePath + fileName, NImageFormat.getPNG());
+                        subject.getFingers().get(i-1).getImage().save(filePath + fileName, NImageFormat.getPNG());
                         break;
                     case "WSQ":
-                        subject.getFingers().get(i - 1).getImage().save(filePath + fileName, NImageFormat.getWSQ());
+                        subject.getFingers().get(i-1).getImage().save(filePath + fileName, NImageFormat.getWSQ());
                         break;
                     case "TIFF":
-                        subject.getFingers().get(i - 1).getImage().save(filePath + fileName, NImageFormat.getTIFF());
+                        subject.getFingers().get(i-1).getImage().save(filePath + fileName, NImageFormat.getTIFF());
                         break;
                 }
 
@@ -615,6 +598,7 @@ public class CitizenshipBack implements Initializable {
 
     public void show() {
         stage.show();
+
     }
 
     public void close() {

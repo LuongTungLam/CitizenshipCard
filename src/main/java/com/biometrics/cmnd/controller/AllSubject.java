@@ -1,18 +1,16 @@
 package com.biometrics.cmnd.controller;
 
-import com.biometrics.cmnd.common.dto.BioType;
 import com.biometrics.cmnd.subject.dto.SubjectDto;
 import com.biometrics.cmnd.subject.entity.Subject;
 import com.biometrics.cmnd.subject.service.SubjectService;
+import com.neurotec.biometrics.NMatchingResult;
 import com.neurotec.biometrics.client.NBiometricClient;
-import javafx.animation.TranslateTransition;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -22,11 +20,7 @@ import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseButton;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.Pane;
-import javafx.scene.layout.StackPane;
-import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.util.Callback;
@@ -37,7 +31,6 @@ import org.springframework.stereotype.Component;
 
 import java.io.File;
 import java.io.IOException;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Date;
@@ -54,22 +47,13 @@ public class AllSubject implements Initializable {
     private final FxWeaver fxWeaver;
 
     @FXML
-    private ImageView iconView, iconRefresh, iconSearch, imageUser, iconLogout;
+    private ImageView iconView, iconRefresh, iconSearch;
     @FXML
     private TableView<SubjectDto.SubjectRes> tableSubject;
     @FXML
-    private Button add, refresh, search, logout;
+    private Button add, refresh, search;
     @FXML
-    private AnchorPane rootPane, allSubjectPane,userPane;
-    @FXML
-    private Label nameUser;
-
-    @FXML private VBox statusContainer;
-
-    private TranslateTransition showStatus;
-    private TranslateTransition hideStatus;
-    private boolean showsStatus = false;
-    private static final int AUTO_HIDE_DEALY = 5;
+    private AnchorPane rootPane;
 
     private final NBiometricClient client;
     private Stage stage;
@@ -85,16 +69,12 @@ public class AllSubject implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        this.stage = new Stage();
-        stage.setScene(new Scene(allSubjectPane));
         File add = new File("uploads/icons/add.png");
         iconView.setImage(new Image(add.toURI().toString()));
         File refresh = new File("uploads/icons/reload.png");
         iconRefresh.setImage(new Image(refresh.toURI().toString()));
         File search = new File("uploads/icons/magnifiying-glass.png");
         iconSearch.setImage(new Image(search.toURI().toString()));
-        File logout = new File("uploads/icons/logout.png");
-        iconLogout.setImage(new Image(logout.toURI().toString()));
         listSubject();
     }
 
@@ -256,37 +236,4 @@ public class AllSubject implements Initializable {
     private void search(ActionEvent event) {
         fxWeaver.loadController(IdentifyFinger.class).show();
     }
-
-    @FXML
-    public void logout(ActionEvent event){
-        nameUser = new Label();
-        imageUser = new ImageView();
-        Stage stage = (Stage) logout.getScene().getWindow();
-        fxWeaver.loadController(LoginApp.class).show();
-        stage.close();
-    }
-
-    public void show(SubjectDto.SubjectRes subject) throws MalformedURLException {
-        nameUser.setText(String.valueOf(subject.getBioGraphy().getFirstName()) + " " + subject.getBioGraphy().getLastName());
-        for (int i = 0; i < subject.getSubjectImages().size(); i++) {
-            if (subject.getSubjectImages().get(i).getImageInfo().getBioType().equals(BioType.FACE)) {
-                File file = new File("uploads" + subject.getSubjectImages().get(i).getImageInfo().getImageUrl());
-                Image image = new Image(file.toURI().toURL().toExternalForm(), 180, 250, false, true);
-                imageUser.setImage(image);
-            }
-        }
-        userPane.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent mouseEvent) {
-                StackPane root = new StackPane();
-                Label label = new Label("Your are now in the second form");
-                root.getChildren().add(label);
-                Stage stage = new Stage();
-                stage.setScene(new Scene(root));
-                stage.show();
-            }
-        });
-        stage.show();
-    }
-
 }
