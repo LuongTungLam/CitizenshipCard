@@ -1,0 +1,29 @@
+.stackpane {
+    -fx-border-color: #D5CBEB;
+}
+
+.button {
+    -fx-background-color: #D5CBEB;
+    -fx-background-radius: 5;
+    -fx-text-fill: #371897;
+    -fx-border-color: #6F4CBB;
+}
+
+.button:hover {
+    /*-fx-text-fill: #6F4CBB;*/
+    -fx-background-color: #E4EEFD;
+}
+
+.button:pressed {
+    -fx-background-color: #E4EEFD;
+    -fx-background-radius: 20;
+}
+
+.check-box {
+    fx-background-color: #E4EEFD;
+    -fx-border-color: #D5CBEB;
+}
+
+.linear-grad {
+    -fx-background-color: linear-gradient(to bottom left, #6F4CBB, #431FA0);
+}

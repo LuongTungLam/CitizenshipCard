@@ -13,9 +13,14 @@
             <children>
                 <StackPane fx:id="viewFinger" layoutX="86.0" layoutY="65.0" prefHeight="192.0" prefWidth="200.0"
                            style="-fx-border-color: gray;"/>
-                <Button fx:id="scan" onAction="#scan" layoutX="245.0" layoutY="264.0" mnemonicParsing="false" text="Scan"/>
-                <Button fx:id="login" onAction="#login" layoutX="186.0" layoutY="264.0" mnemonicParsing="false" text="Login"/>
+                <Button fx:id="scan" layoutX="245.0" layoutY="264.0" mnemonicParsing="false" onAction="#scan"
+                        text="Scan"/>
+                <Button fx:id="login" layoutX="186.0" layoutY="264.0" mnemonicParsing="false" onAction="#login"
+                        text="Login"/>
                 <ComboBox fx:id="listLiveScan" layoutX="86.0" layoutY="264.0" prefHeight="25.0" prefWidth="84.0"/>
+                <Button fx:id="face" layoutX="245.0" layoutY="298.0" mnemonicParsing="false" onAction="#face"
+                        text="Face"/>
+                <ComboBox fx:id="listCamera" layoutX="86.0" layoutY="298.0" prefHeight="25.0" prefWidth="146.0"/>
             </children>
         </Pane>
     </children>

@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Point3D?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.StackPane?>
+<?import org.kordamp.ikonli.javafx.FontIcon?>
+
+<AnchorPane fx:id="apLogin" prefHeight="900.0" prefWidth="1400.0" styleClass="anchor-login"
+            stylesheets="@../../../../css/loginBBSSO.css" xmlns="http://javafx.com/javafx/11.0.1"
+            xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.biometrics.cmnd.controller.LoginBioSSO">
+    <children>
+        <BorderPane prefHeight="900.0" prefWidth="1400.0">
+            <left>
+                <AnchorPane prefWidth="875.0" styleClass="login-left" BorderPane.alignment="CENTER">
+                    <children>
+                        <Button fx:id="btnClose" layoutX="770.0" layoutY="34.0" mnemonicParsing="false"
+                                onAction="#handleButtonAction" prefHeight="46.0" prefWidth="55.0">
+                            <graphic>
+                                <FontIcon iconColor="white" iconLiteral="fas-power-off" iconSize="18"/>
+                            </graphic>
+                        </Button>
+                        <ImageView fitHeight="551.0" fitWidth="629.0" layoutX="123.0" layoutY="200.0"
+                                   pickOnBounds="true" preserveRatio="true">
+                            <image>
+                                <Image url="@../../../../icons/imageBABIS.png"/>
+                            </image>
+                        </ImageView>
+                        <ImageView fitHeight="53.0" fitWidth="112.0" layoutX="36.0" layoutY="34.0" pickOnBounds="true"
+                                   preserveRatio="true">
+                            <image>
+                                <Image url="@../../../../icons/IconBzComAbis.png"/>
+                            </image>
+                        </ImageView>
+                    </children>
+                </AnchorPane>
+            </left>
+            <center>
+                <AnchorPane prefHeight="900.0" styleClass="login-right" BorderPane.alignment="CENTER">
+                    <children>
+                        <BorderPane fx:id="bpLogin" prefHeight="900.0" prefWidth="525.0" styleClass="login-right">
+                            <top>
+                                <AnchorPane prefHeight="100.0" prefWidth="525.0" styleClass="login-right"
+                                            BorderPane.alignment="CENTER">
+                                    <children>
+                                        <Button fx:id="btnLoginFace" layoutY="1.0" mnemonicParsing="false"
+                                                onAction="#handleButtonAction" prefHeight="99.0" prefWidth="263.0"
+                                                styleClass="button-select" text="Face Login"/>
+                                        <Button fx:id="btnLoginScan" layoutX="263.0" layoutY="1.0"
+                                                mnemonicParsing="false" onAction="#handleButtonAction" prefHeight="99.0"
+                                                prefWidth="262.0" style="-fx-background-radius: 0 20 0 0;"
+                                                styleClass="button-select" text="Fingerprint Login"/>
+                                    </children>
+                                </AnchorPane>
+                            </top>
+                            <center>
+                                <StackPane fx:id="paneChangeLogin" styleClass="login-right"
+                                           BorderPane.alignment="CENTER">
+                                    <children>
+                                        <Pane style="-fx-background-color: #fff;" styleClass="login-right">
+                                            <children>
+                                                <Button fx:id="btnLogin" layoutX="134.0" layoutY="615.0"
+                                                        mnemonicParsing="false" onAction="#handleButtonAction"
+                                                        prefHeight="45.0" prefWidth="300.0"
+                                                        stylesheets="@../../../../css/loginBBSSO.css" text="Login"/>
+                                                <StackPane fx:id="faceLogin" layoutX="134.0" layoutY="271.0"
+                                                           prefHeight="300.0" prefWidth="300.0" styleClass="stack-pane"
+                                                           stylesheets="@../../../../css/loginBBSSO.css"/>
+                                                <ComboBox fx:id="cbbDeviceCamera" layoutX="86.0" layoutY="170.0"
+                                                          prefHeight="46.0" prefWidth="375.0"
+                                                          promptText="Choose the device to connect"
+                                                          stylesheets="@../../../../css/loginBBSSO.css"/>
+                                            </children>
+                                            <rotationAxis>
+                                                <Point3D/>
+                                            </rotationAxis>
+                                        </Pane>
+                                    </children>
+                                </StackPane>
+                            </center>
+                        </BorderPane>
+                    </children>
+                </AnchorPane>
+            </center>
+        </BorderPane>
+    </children>
+</AnchorPane>

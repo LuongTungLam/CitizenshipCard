@@ -1,0 +1,67 @@
+/*@font-face {*/
+/*    src: url('font/Barlow');*/
+/*}*/
+.linear-grad {
+    -fx-background-color: linear-gradient(to bottom left, #106466, #00B7A5, #13585A);
+}
+.anchor-login{
+    -fx-background-color: #106466;
+    -fx-background-radius: 20;
+}
+.login-left {
+    -fx-background-color: #106466;
+    -fx-background-radius: 20 0 0 20;
+}
+
+.login-right{
+    -fx-background-color: #fff;
+    -fx-background-radius: 0 20 20 0;
+}
+
+.h-box{
+    -fx-background-color: #fff;
+    -fx-background-radius: 0 0 20 0;
+}
+
+.main-login {
+    -fx-background-color: white;
+    -fx-background-radius: 20;
+}
+
+.stack-pane {
+    -fx-border-color: #BDBDBD;
+    -fx-border-radius: 5;
+}
+
+.button {
+    -fx-background-color: #106466;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+}
+
+.button:hover {
+    -fx-background-color: #178386;
+}
+
+.combo-box {
+    -fx-background-color: #F2F2F2;
+}
+
+.combo-box .list-cell {
+    -fx-text-fill: #828282;
+}
+
+.button-select {
+    -fx-background-color: #fff;
+    -fx-text-fill: #106466;
+
+}
+
+.button-select:hover{
+    -fx-background-color: #F2F2F2;
+}
+
+.button-select:focused{
+    -fx-background-color: #F2F2F2;
+}
+

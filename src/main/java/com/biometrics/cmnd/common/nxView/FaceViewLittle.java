@@ -19,8 +19,9 @@ public class FaceViewLittle  extends SwingNode {
             this.faceView.setFace((NFace)null);
             this.faceView.setAutofit(true);
             JScrollPane scrollPane = new JScrollPane();
-            scrollPane.setVerticalScrollBarPolicy(20);
-            scrollPane.setHorizontalScrollBarPolicy(30);
+//            scrollPane.setVerticalScrollBarPolicy(20);
+//            scrollPane.setHorizontalScrollBarPolicy(30);
+            scrollPane.setBorder(null);
             scrollPane.setMinimumSize(new Dimension(100, 100));
             scrollPane.setPreferredSize(new Dimension(500, 500));
             scrollPane.setViewportView(this.faceView);

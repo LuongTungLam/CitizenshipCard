@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXToggleButton?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane fx:id="settingPopup" prefHeight="147.0" prefWidth="200.0" stylesheets="@../../../../css/homepage.css"
+            xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
+    <JFXToggleButton fx:id="btnBackground" layoutY="35.0" prefHeight="58.0" prefWidth="200.0" text="OFF"/>
+
+</AnchorPane>

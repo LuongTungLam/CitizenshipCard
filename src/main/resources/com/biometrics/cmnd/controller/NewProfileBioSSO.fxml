@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXComboBox?>
+<?import com.jfoenix.controls.JFXDatePicker?>
+<?import com.jfoenix.controls.JFXRadioButton?>
+<?import com.jfoenix.controls.JFXTextField?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.ToggleGroup?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+<?import org.kordamp.ikonli.javafx.FontIcon?>
+
+<AnchorPane prefHeight="820.0" prefWidth="1400.0" styleClass="main-pane" stylesheets="@../../../../css/newProfile.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.biometrics.cmnd.controller.NewProfileBioSSO">
+    <children>
+        <BorderPane prefHeight="820.0" prefWidth="1400.0">
+            <center>
+                <StackPane prefHeight="150.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+                    <children>
+                        <Pane fx:id="paneFront" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #E5E5E5;" styleClass="pane-radius">
+                            <children>
+                                <AnchorPane layoutX="18.0" layoutY="19.0" prefHeight="685.0" prefWidth="1363.0" styleClass="pane-front" stylesheets="@../../../../css/newProfile.css">
+                                    <children>
+                                        <Label layoutX="34.0" layoutY="41.0" text="Creating New Profile">
+                                            <font>
+                                                <Font name="System Bold" size="18.0" />
+                                            </font>
+                                        </Label>
+                                        <StackPane fx:id="stpFace" layoutX="55.0" layoutY="109.0" prefHeight="280.0" prefWidth="280.0" styleClass="stack-pane" stylesheets="@../../../../css/newProfile.css" />
+                                        <Button fx:id="btnFile" layoutX="217.0" layoutY="415.0" mnemonicParsing="false" onAction="#handleButtonAction" prefHeight="38.0" prefWidth="118.0" stylesheets="@../../../../css/loginBBSSO.css" text="+ Upload Image" />
+                                        <Label layoutX="158.0" layoutY="481.0" text="ID Card Number" />
+                                        <JFXTextField fx:id="tfNumberCard" alignment="CENTER" editable="false" focusColor="WHITE" layoutX="55.0" layoutY="509.0" prefHeight="38.0" prefWidth="280.0" promptText="000000000000" styleClass="text-nid" stylesheets="@../../../../css/newProfile.css" unFocusColor="WHITE" />
+                                        <Label layoutX="44.0" layoutY="580.0" text="*This number card is auto generated differently for each profile" />
+                                        <Label layoutX="436.0" layoutY="119.0" text="First Name" />
+                                        <JFXTextField fx:id="tfFirstName" focusColor="WHITE" layoutX="511.0" layoutY="109.0" prefHeight="38.0" prefWidth="300.0" promptText="Enter first name" unFocusColor="WHITE" />
+                                        <Label layoutX="436.0" layoutY="205.0" text="Last Name" />
+                                        <JFXTextField fx:id="tfLastName" focusColor="WHITE" layoutX="511.0" layoutY="195.0" prefHeight="38.0" prefWidth="300.0" promptText="Enter last name" unFocusColor="WHITE" />
+                                        <Label layoutX="436.0" layoutY="286.0" text="Gender" />
+                                        <JFXRadioButton fx:id="male" layoutX="511.0" layoutY="276.0" prefHeight="38.0" prefWidth="70.0" text="Male">
+                                            <toggleGroup>
+                                                <ToggleGroup fx:id="gender" />
+                                            </toggleGroup>
+                                        </JFXRadioButton>
+                                        <JFXRadioButton fx:id="female" layoutX="592.0" layoutY="276.0" prefHeight="38.0" prefWidth="109.0" text="Female" toggleGroup="$gender" />
+                                        <Label layoutX="436.0" layoutY="369.0" text="D.O.B" />
+                                        <JFXDatePicker fx:id="dpkDOB" defaultColor="#9a9595" editable="false" layoutX="511.0" layoutY="358.0" prefHeight="38.0" prefWidth="300.0" promptText="YYYY/MM/DD" AnchorPane.leftAnchor="511.0" AnchorPane.topAnchor="358.0" />
+                                        <Label layoutX="436.0" layoutY="453.0" text="Phone" />
+                                        <JFXTextField fx:id="tfPhone" focusColor="WHITE" layoutX="511.0" layoutY="443.0" prefHeight="38.0" prefWidth="300.0" promptText="Enter phone" unFocusColor="WHITE" />
+                                        <Label layoutX="436.0" layoutY="538.0" text="Email" />
+                                        <JFXTextField fx:id="tfEmail" focusColor="WHITE" layoutX="511.0" layoutY="528.0" prefHeight="38.0" prefWidth="300.0" promptText="Enter email" unFocusColor="WHITE" />
+                                        <Label layoutX="944.0" layoutY="119.0" text="Country" />
+                                        <JFXComboBox fx:id="cbbCountry" focusColor="WHITE" layoutX="1019.0" layoutY="109.0" prefHeight="38.0" prefWidth="300.0" promptText="Choose the country for this profile" unFocusColor="WHITE" />
+                                        <Label layoutX="944.0" layoutY="205.0" text="City" />
+                                        <JFXComboBox fx:id="cbbCity" focusColor="WHITE" layoutX="1019.0" layoutY="195.0" prefHeight="38.0" prefWidth="300.0" promptText="Choose the city for this profile" unFocusColor="WHITE" />
+                                        <Label layoutX="944.0" layoutY="286.0" text="Province" />
+                                        <JFXComboBox fx:id="cbbProvince" focusColor="WHITE" layoutX="1019.0" layoutY="276.0" prefHeight="38.0" prefWidth="300.0" promptText="Choose the province for this profile" unFocusColor="WHITE" />
+                                        <Label layoutX="944.0" layoutY="369.0" text="District" />
+                                        <JFXComboBox fx:id="cbbDistrict" focusColor="WHITE" layoutX="1019.0" layoutY="359.0" prefHeight="38.0" prefWidth="300.0" promptText="Choose the district for this profile" unFocusColor="WHITE" />
+                                        <Label layoutX="944.0" layoutY="453.0" text="Street" />
+                                        <JFXTextField fx:id="tfStreet" focusColor="WHITE" layoutX="1019.0" layoutY="443.0" prefHeight="38.0" prefWidth="300.0" promptText="Enter the detail address" unFocusColor="WHITE" />
+                                        <Label layoutX="944.0" layoutY="538.0" text="Zip Code" />
+                                        <JFXTextField fx:id="tfZip" focusColor="WHITE" layoutX="1019.0" layoutY="528.0" prefHeight="38.0" prefWidth="300.0" promptText="Enter zip code of this profile's area" unFocusColor="WHITE" />
+                              <Button fx:id="btnFile1" layoutX="55.0" layoutY="415.0" mnemonicParsing="false" onAction="#handleButtonAction" prefHeight="38.0" prefWidth="118.0" stylesheets="@../../../../css/loginBBSSO.css" text="+ Using Camera" />
+                                    </children>
+                                </AnchorPane>
+                                <Button fx:id="btnNext" layoutX="1181.0" layoutY="728.0" mnemonicParsing="false" nodeOrientation="RIGHT_TO_LEFT" onAction="#handleButtonAction" prefHeight="35.0" prefWidth="200.0" styleClass="button-create" stylesheets="@../../../../css/homeBioSSO.css" text="NEXT STEP: FINGERPRINTING ">
+                                    <graphic>
+                                        <FontIcon iconColor="WHITE" iconLiteral="fas-chevron-right" />
+                                    </graphic>
+                                </Button>
+                            </children>
+                        </Pane>
+                        <Pane fx:id="paneBack" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #E5E5E5;" styleClass="pane-radius">
+                            <children>
+                                <AnchorPane layoutX="20.0" layoutY="25.0" prefHeight="659.0" prefWidth="1354.0" styleClass="pane-front" stylesheets="@../../../../css/newProfile.css">
+                                    <children>
+                                        <Label layoutX="35.0" layoutY="47.0" text="Fingerprinting">
+                                            <font>
+                                                <Font name="System Bold" size="18.0" />
+                                            </font>
+                                        </Label>
+                                        <Button fx:id="btnScan" layoutX="783.0" layoutY="101.0" mnemonicParsing="false" onAction="#handleButtonAction" prefHeight="38.0" prefWidth="163.0" stylesheets="@../../../../css/loginBBSSO.css" text="Start Scanning" />
+                                        <Label layoutX="35.0" layoutY="111.0" text="If you want to scan specific fingers, you can choose here" />
+                                        <JFXComboBox fx:id="cbbDeviceFinger" focusColor="WHITE" layoutX="409.0" layoutY="101.0" prefHeight="38.0" prefWidth="332.0" promptText="Choose the device to connect" unFocusColor="WHITE" />
+                                        <ListView fx:id="listMFP" fixedCellSize="0.0" focusTraversable="false" layoutX="35.0" layoutY="172.0" prefHeight="375.0" prefWidth="313.0" />
+                                        <StackPane fx:id="mirrorFingerprint" layoutX="412.0" layoutY="305.0" prefHeight="242.0" prefWidth="242.0" styleClass="stack-pane-min" />
+                                        <Label layoutX="412.0" layoutY="239.0" text="Device Scanning Mirror">
+                                            <font>
+                                                <Font name="System Bold" size="12.0" />
+                                            </font>
+                                        </Label>
+                                        <VBox layoutX="712.0" layoutY="260.0">
+                                            <children>
+                                                <Label fx:id="lblRThumb" prefWidth="110.0" styleClass="label-hand" text="Thumb " />
+                                                <StackPane fx:id="fingerprint1" prefHeight="110.0" prefWidth="110.0" styleClass="stack-pane-min" />
+                                            </children>
+                                        </VBox>
+                                        <VBox layoutX="837.0" layoutY="260.0">
+                                            <children>
+                                                <Label fx:id="lblRIndex" prefWidth="110.0" styleClass="label-hand" text="Index" />
+                                                <StackPane fx:id="fingerprint2" prefHeight="110.0" prefWidth="110.0" styleClass="stack-pane-min" />
+                                            </children>
+                                        </VBox>
+                                        <VBox layoutX="960.0" layoutY="260.0">
+                                            <children>
+                                                <Label fx:id="lblRMiddle" prefWidth="110.0" styleClass="label-hand" text="Middle" />
+                                                <StackPane fx:id="fingerprint3" prefHeight="110.0" prefWidth="110.0" styleClass="stack-pane-min" />
+                                            </children>
+                                        </VBox>
+                                        <VBox layoutX="1085.0" layoutY="260.0">
+                                            <children>
+                                                <Label fx:id="lblRRing" prefWidth="110.0" styleClass="label-hand" text="Ring" />
+                                                <StackPane fx:id="fingerprint4" prefHeight="110.0" prefWidth="110.0" styleClass="stack-pane-min" />
+                                            </children>
+                                        </VBox>
+                                        <VBox layoutX="1210.0" layoutY="260.0">
+                                            <children>
+                                                <Label fx:id="lblRLittle" prefWidth="110.0" styleClass="label-hand" text="Little" />
+                                                <StackPane fx:id="fingerprint5" prefHeight="110.0" prefWidth="110.0" styleClass="stack-pane-min" />
+                                            </children>
+                                        </VBox>
+                                        <VBox layoutX="711.0" layoutY="454.0">
+                                            <children>
+                                                <Label fx:id="lblLThumb" prefWidth="110.0" styleClass="label-hand" text="Thumb" />
+                                                <StackPane fx:id="fingerprint6" prefHeight="110.0" prefWidth="110.0" styleClass="stack-pane-min" />
+                                            </children>
+                                        </VBox>
+                                        <VBox layoutX="836.0" layoutY="454.0">
+                                            <children>
+                                                <Label fx:id="lblLIndex" prefWidth="110.0" styleClass="label-hand" text="Index" />
+                                                <StackPane fx:id="fingerprint7" prefHeight="110.0" prefWidth="110.0" styleClass="stack-pane-min" />
+                                            </children>
+                                        </VBox>
+                                        <VBox layoutX="959.0" layoutY="454.0">
+                                            <children>
+                                                <Label fx:id="lblLMiddle" prefWidth="110.0" styleClass="label-hand" text="Middle" />
+                                                <StackPane fx:id="fingerprint8" prefHeight="110.0" prefWidth="110.0" styleClass="stack-pane-min" />
+                                            </children>
+                                        </VBox>
+                                        <VBox layoutX="1084.0" layoutY="454.0">
+                                            <children>
+                                                <Label fx:id="lblLRing" prefWidth="110.0" styleClass="label-hand" text="Ring" />
+                                                <StackPane fx:id="fingerprint9" prefHeight="110.0" prefWidth="110.0" styleClass="stack-pane-min" />
+                                            </children>
+                                        </VBox>
+                                        <VBox layoutX="1209.0" layoutY="454.0">
+                                            <children>
+                                                <Label fx:id="lblLLittle" prefWidth="110.0" styleClass="label-hand" text="Little" />
+                                                <StackPane fx:id="fingerprint10" prefHeight="110.0" prefWidth="110.0" styleClass="stack-pane-min" />
+                                            </children>
+                                        </VBox>
+                                        <Label layoutX="714.0" layoutY="224.0" text="1. Right hand">
+                                            <font>
+                                                <Font name="System Bold" size="12.0" />
+                                            </font>
+                                            <graphic>
+                                                <FontIcon iconLiteral="fas-angle-double-right" />
+                                            </graphic>
+                                        </Label>
+                                        <Label layoutX="712.0" layoutY="426.0" text="2. Left hand">
+                                            <font>
+                                                <Font name="System Bold" size="12.0" />
+                                            </font>
+                                            <graphic>
+                                                <FontIcon iconLiteral="fas-angle-double-right" />
+                                            </graphic>
+                                        </Label>
+                                    </children>
+                                </AnchorPane>
+                                <Button fx:id="btnSave" layoutX="1174.0" layoutY="715.0" mnemonicParsing="false" nodeOrientation="RIGHT_TO_LEFT" onAction="#handleButtonAction" prefHeight="35.0" prefWidth="200.0" styleClass="button-create" stylesheets="@../../../../css/homeBioSSO.css" text="CREATE THIS PROFILE" />
+                                <Button fx:id="btnBack" graphicTextGap="15.0" layoutX="49.0" layoutY="715.0" mnemonicParsing="false" onAction="#handleButtonAction" prefHeight="35.0" prefWidth="200.0" styleClass="btn-back-step" stylesheets="@../../../../css/homeBioSSO.css" text="BACK TO FIRST STEP">
+                                    <graphic>
+                                        <FontIcon iconColor="#4F4F4F" iconLiteral="fas-chevron-left" />
+                                    </graphic>
+                                </Button>
+                            </children>
+                        </Pane>
+                    </children>
+                </StackPane>
+            </center>
+        </BorderPane>
+    </children>
+</AnchorPane>

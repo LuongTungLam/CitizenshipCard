@@ -1,0 +1,11 @@
+.homepage {
+    -fx-background-color: #000;
+}
+
+.homepage > .borderpane > .borderView > . anchorView {
+    -fx-background-color: #000;
+}
+
+.hBox > .button {
+    -fx-background-color: #000;
+}

@@ -1,0 +1,19 @@
+.button{
+    -fx-background-color: white;
+    -fx-border-radius: 10;
+    -fx-background-radius: 10;
+    -fx-border-color: DIMGREY;
+}
+
+.button:hover{
+    -fx-background-color: #E4EEFD;
+}
+
+.combo-box{
+    -fx-background-color: #fff;
+    -fx-border-color: DIMGREY;
+}
+
+.stackpane{
+    -fx-border-color: DIMGREY;
+}

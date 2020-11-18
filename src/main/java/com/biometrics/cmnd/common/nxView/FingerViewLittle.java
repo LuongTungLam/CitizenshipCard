@@ -1,31 +1,35 @@
 package com.biometrics.cmnd.common.nxView;
 
+import com.neurotec.biometrics.NFPosition;
 import com.neurotec.biometrics.NFinger;
 import com.neurotec.biometrics.NFrictionRidge;
 import com.neurotec.biometrics.swing.NFingerView;
 import com.neurotec.biometrics.swing.NFingerViewBase.ShownImage;
 import com.neurotec.util.NIndexPair;
-import java.awt.Dimension;
+
+import java.awt.*;
 import java.util.concurrent.FutureTask;
 import java.util.concurrent.RunnableFuture;
+
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.embed.swing.SwingNode;
+
 import javax.swing.JScrollPane;
 import javax.swing.SwingUtilities;
 
-public class FingerViewLittle extends SwingNode{
+public class FingerViewLittle extends SwingNode {
     private final ObjectProperty<NFinger> finger = new SimpleObjectProperty();
     private NFingerView fingerView;
 
     public FingerViewLittle() {
         SwingUtilities.invokeLater(() -> {
             this.fingerView = new NFingerView();
-            this.fingerView.setFinger((NFrictionRidge)null);
+            this.fingerView.setFinger((NFrictionRidge) null);
             this.fingerView.setAutofit(true);
             JScrollPane scrollPane = new JScrollPane();
-            scrollPane.setVerticalScrollBarPolicy(20);
-            scrollPane.setHorizontalScrollBarPolicy(30);
+            scrollPane.setBorder(null);
+            scrollPane.setBackground(null);
             scrollPane.setMinimumSize(new Dimension(100, 100));
             scrollPane.setPreferredSize(new Dimension(500, 500));
             scrollPane.setViewportView(this.fingerView);
@@ -34,7 +38,7 @@ public class FingerViewLittle extends SwingNode{
     }
 
     public final NFinger getFinger() {
-        return (NFinger)this.finger.get();
+        return (NFinger) this.finger.get();
     }
 
     public final void setFinger(NFinger value) {
@@ -42,6 +46,17 @@ public class FingerViewLittle extends SwingNode{
         SwingUtilities.invokeLater(() -> {
             this.fingerView.setFinger(value);
         });
+    }
+
+    public final void setPosition(NFPosition position) {
+//        this.finger.get().setPosition(position);
+        SwingUtilities.invokeLater(() -> {
+            this.fingerView.getFinger().setPosition(position);
+        });
+    }
+
+    public final NFPosition getPosition() {
+        return null;
     }
 
     public ObjectProperty<NFinger> fingerProperty() {
@@ -74,7 +89,7 @@ public class FingerViewLittle extends SwingNode{
         SwingUtilities.invokeLater(rf);
 
         try {
-            tree = (NIndexPair[])rf.get();
+            tree = (NIndexPair[]) rf.get();
         } catch (Exception var4) {
             var4.printStackTrace();
         }
