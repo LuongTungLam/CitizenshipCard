@@ -1,0 +1,126 @@
+.anchor-home {
+    -fx-background-color: #F2F2F2;
+    -fx-background-radius: 15;
+}
+
+.anchor-entity {
+    -fx-background-color: white;
+    -fx-background-radius: 15;
+}
+
+.combo-box {
+    -fx-background-color: #F2F2F2;
+}
+
+.text-field-img {
+    -fx-font-size: 12;
+    -fx-background-color: #F2F2F2;
+}
+
+.btn-min {
+    -fx-background-color: white;
+}
+
+.btn-desk-top {
+    -fx-background-color: white;
+    -fx-text-fill: #106466;
+    -fx-font-weight: bold;
+    -fx-font-size: 15;
+}
+
+.btn-desk-top:hover {
+    -fx-border-color: #106466;
+    -fx-border-width: 0 0 5 0;
+}
+
+.btn-desk-top:focused {
+    -fx-border-color: #106466;
+    -fx-border-width: 0 0 5 0;
+}
+
+.table-view {
+    -fx-background-color: transparent;
+}
+
+.table-view .column-header {
+    -fx-background-color: white;
+    -fx-text-alignment: left;
+}
+
+.table-view .table-cell {
+    -fx-border-color: transparent;
+    -fx-padding: 15;
+}
+
+.table-view .column-header .label {
+    -fx-text-fill: #F7941D;
+    -fx-font-weight: bold;
+    -fx-alignment: baseline-left;
+    -fx-padding: 13;
+}
+
+/* You can control the actual button sizes here */
+.pagination > .pagination-control > .control-box > .number-button,
+.pagination > .pagination-control > .control-box > .bullet-button,
+.pagination > .pagination-control > .control-box > .left-arrow-button,
+.pagination > .pagination-control > .control-box > .right-arrow-button {
+    -fx-background-insets: 0, 0;
+    -fx-background-color: lightgray, #FAFAFA;
+    -fx-min-width: 26;
+    -fx-min-height: 26;
+}
+
+/* Colors on hover */
+.pagination > .pagination-control > .control-box > .number-button:hover,
+.pagination > .pagination-control > .control-box > .bullet-button:hover,
+.pagination > .pagination-control > .control-box > .left-arrow-button:hover,
+.pagination > .pagination-control > .control-box > .right-arrow-button:hover {
+    -fx-background-insets: 0;
+    -fx-background-color: lightgray;
+}
+
+/* Selected toggle color */
+.pagination > .pagination-control > .control-box > .number-button:selected,
+.pagination > .pagination-control > .control-box > .bullet-button:selected {
+    -fx-background-insets: 0;
+    -fx-background-color: #106466;
+    -fx-text-fill: white;
+}
+
+.button-create {
+    -fx-background-color: #F7941D;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-font-size: 11;
+}
+
+.jfx-combo-box {
+    -fx-padding: 5px;
+    -fx-prompt-text-fill: #a5a5a5;
+}
+
+.jfx-text-field {
+    -fx-background-color: #F2F2F2;
+    -fx-padding: 5px;
+    -fx-prompt-text-fill: #a5a5a5;
+}
+
+.btn-popup{
+    -fx-background-color: #FFF;
+}
+
+.btn-popup:hover{
+    -fx-background-color: #F2F2F2;
+}
+
+
+.anchor-popup{
+    -fx-background-color: #FFF;
+    -fx-background-radius: 5;
+}
+
+.image-view-user{
+    -fx-background-color: #FFF;
+    -fx-background-radius: 50;
+}
+

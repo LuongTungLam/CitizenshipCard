@@ -63,11 +63,11 @@ public class LoginApp implements Initializable {
     @FXML
     private AnchorPane loginPane;
     @FXML
-    private Button scan, login;
+    private Button scan, login,face;
     @FXML
     private StackPane viewFinger;
     @FXML
-    private ComboBox listLiveScan;
+    private ComboBox listLiveScan,listCamera;
 
     private final NDeviceManager deviceManager;
     private final NBiometricClient client;
@@ -82,10 +82,10 @@ public class LoginApp implements Initializable {
     public LoginApp(NBiometricClient client, SubjectService subjectService, RecognitionService recognitionService, IdentifyService identifyService, FxWeaver fxWeaver) {
         super();
         this.viewFingers = new FingerViewLittle();
-        this.client = client;
         this.subjectService = subjectService;
         this.recognitionService = recognitionService;
         this.identifyService = identifyService;
+        this.client = client;
         client.setUseDeviceManager(true);
         deviceManager = client.getDeviceManager();
         deviceManager.setDeviceTypes(EnumSet.of(NDeviceType.FINGER_SCANNER));
@@ -114,6 +114,10 @@ public class LoginApp implements Initializable {
         NBiometricTask task = client.createTask(EnumSet.of(NBiometricOperation.CAPTURE, NBiometricOperation.CREATE_TEMPLATE), subject);
         client.performTask(task, null, segmentHandler);
         scanning = true;
+    }
+
+    @FXML
+    public void face(ActionEvent event) {
     }
 
     @FXML
@@ -156,7 +160,7 @@ public class LoginApp implements Initializable {
                     Platform.runLater(() -> {
                         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
                         alert.setTitle("Login Failed");
-                        alert.setHeaderText("Not Found Finger !");
+//                        alert.setHeaderText("Not Found Finger !");
                         alert.showAndWait();
                     });
                 }
@@ -235,12 +239,12 @@ public class LoginApp implements Initializable {
     private NSubject createSubject(byte[] refTemplate, String subjectId) {
         NSubject subject = new NSubject();
         NTemplate template = new NTemplate(NBuffer.fromArray(refTemplate));
-        if (template.getFaces() != null) {
-            for (NLRecord record : template.getFaces().getRecords()) {
-                System.out.println(record.getQuality()
-                );
-            }
-        }
+//        if (template.getFaces() != null) {
+//            for (NLRecord record : template.getFaces().getRecords()) {
+//                System.out.println(record.getQuality()
+//                );
+//            }
+//        }
         subject.setTemplate(template);
         subject.setId(subjectId);
         return subject;

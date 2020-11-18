@@ -34,12 +34,12 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.CheckBoxListCell;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.StackPane;
+import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
@@ -115,9 +115,11 @@ public class CitizenshipBack implements Initializable {
 
     private File fileFace;
 
+    private List<Label> listLblFinger = new ArrayList<>();
+
     private List<FingerViewLittle> listViewFinger = new ArrayList<>();
 
-    private List<String> listLblFinger = new ArrayList<>();
+    private List<StackPane> listStackPane = new ArrayList<>();
 
     @FXML
     private ListView<NFPosition> listPositions;
@@ -146,7 +148,6 @@ public class CitizenshipBack implements Initializable {
         this.viewFaces = new FaceViewLittle();
         this.fileChooser = new FileChooser();
     }
-
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -181,6 +182,8 @@ public class CitizenshipBack implements Initializable {
         initFingerPositions();
         controlColor();
         initFingerView();
+        intLblFinger();
+        initStackPane();
         dpBirthDay.setConverter(new StringConverter<LocalDate>() {
                                     final DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
@@ -242,19 +245,33 @@ public class CitizenshipBack implements Initializable {
         listViewFinger.add(viewRightLittle);
     }
 
-    private void intLblFinger() {
-//        lblLeftLittle.setText(listMissingFinger.get(0).toString());
-//        lblLeftRing.setText(listMissingFinger.get(1).toString());
-//        lblLeftMiddle.setText(listMissingFinger.get(2).toString());
-//        lblLeftIndex.setText(listMissingFinger.get(3).toString());
-//        lblLeftThumb.setText(listMissingFinger.get(4).toString());
-//        lblRightThumb.setText(listMissingFinger.get(5).toString());
-//        lblRightIndex.setText(listMissingFinger.get(6).toString());
-//        lblRightMiddle.setText(listMissingFinger.get(7).toString());
-//        lblRightRing.setText(listMissingFinger.get(8).toString());
-//        lblRightLittle.setText(listMissingFinger.get(9).toString());
+    private void initStackPane() {
+        listStackPane.add(leftLittle);
+        listStackPane.add(leftRing);
+        listStackPane.add(leftMiddle);
+        listStackPane.add(leftIndex);
+        listStackPane.add(leftThumb);
+        listStackPane.add(rightThumb);
+        listStackPane.add(rightIndex);
+        listStackPane.add(rightMiddle);
+        listStackPane.add(rightRing);
+        listStackPane.add(rightLittle);
     }
 
+    private void intLblFinger() {
+        listLblFinger.add(lblLeftLittle);
+        listLblFinger.add(lblLeftRing);
+        listLblFinger.add(lblLeftMiddle);
+        listLblFinger.add(lblLeftIndex);
+        listLblFinger.add(lblLeftThumb);
+        listLblFinger.add(lblRightThumb);
+        listLblFinger.add(lblRightIndex);
+        listLblFinger.add(lblRightMiddle);
+        listLblFinger.add(lblRightRing);
+        listLblFinger.add(lblRightLittle);
+    }
+
+    // scan by roller finger
     @FXML
     public void roll(ActionEvent event) {
         NFinger finger = new NFinger();
@@ -267,6 +284,7 @@ public class CitizenshipBack implements Initializable {
         segment();
     }
 
+    // open file face
     @FXML
     public void file(ActionEvent event) throws IOException {
         fileFace = fileChooser.showOpenDialog(null);
@@ -279,6 +297,7 @@ public class CitizenshipBack implements Initializable {
         }
     }
 
+    // scan finger default
     @FXML
     public void scan(ActionEvent event) {
         NFinger finger = new NFinger();
@@ -323,34 +342,34 @@ public class CitizenshipBack implements Initializable {
 
         switch (indexFinger) {
             case 1:
-                setSegmentInfo(subject.getFingers().get(0), new Label(listMissingFinger.get(0).toString()), listMissingFinger.get(0), listViewFinger.get(0));
+                setSegmentInfo(subject.getFingers().get(0), listLblFinger.get(0), listMissingFinger.get(0), listViewFinger.get(0), listStackPane.get(0));
                 break;
             case 2:
-                setSegmentInfo(subject.getFingers().get(1), new Label(listMissingFinger.get(1).toString()), listMissingFinger.get(1), listViewFinger.get(1));
+                setSegmentInfo(subject.getFingers().get(1), listLblFinger.get(1), listMissingFinger.get(1), listViewFinger.get(1), listStackPane.get(1));
                 break;
             case 3:
-                setSegmentInfo(subject.getFingers().get(2), new Label(listMissingFinger.get(2).toString()), listMissingFinger.get(2), listViewFinger.get(2));
+                setSegmentInfo(subject.getFingers().get(2), listLblFinger.get(2), listMissingFinger.get(2), listViewFinger.get(2), listStackPane.get(2));
                 break;
             case 4:
-                setSegmentInfo(subject.getFingers().get(3), new Label(listMissingFinger.get(3).toString()), listMissingFinger.get(3), listViewFinger.get(3));
+                setSegmentInfo(subject.getFingers().get(3), listLblFinger.get(3), listMissingFinger.get(3), listViewFinger.get(3), listStackPane.get(3));
                 break;
             case 5:
-                setSegmentInfo(subject.getFingers().get(4), new Label(listMissingFinger.get(4).toString()), listMissingFinger.get(4), listViewFinger.get(4));
+                setSegmentInfo(subject.getFingers().get(4),listLblFinger.get(4), listMissingFinger.get(4), listViewFinger.get(4), listStackPane.get(4));
                 break;
             case 6:
-                setSegmentInfo(subject.getFingers().get(5), new Label(listMissingFinger.get(5).toString()), listMissingFinger.get(5), listViewFinger.get(5));
+                setSegmentInfo(subject.getFingers().get(5),listLblFinger.get(5), listMissingFinger.get(5), listViewFinger.get(5), listStackPane.get(5));
                 break;
             case 7:
-                setSegmentInfo(subject.getFingers().get(6), new Label(listMissingFinger.get(6).toString()), listMissingFinger.get(6), listViewFinger.get(6));
+                setSegmentInfo(subject.getFingers().get(6),listLblFinger.get(6), listMissingFinger.get(6), listViewFinger.get(6), listStackPane.get(6));
                 break;
             case 8:
-                setSegmentInfo(subject.getFingers().get(7), new Label(listMissingFinger.get(7).toString()), listMissingFinger.get(7), listViewFinger.get(7));
+                setSegmentInfo(subject.getFingers().get(7),listLblFinger.get(7), listMissingFinger.get(7), listViewFinger.get(7), listStackPane.get(7));
                 break;
             case 9:
-                setSegmentInfo(subject.getFingers().get(8), new Label(listMissingFinger.get(8).toString()), listMissingFinger.get(8), listViewFinger.get(8));
+                setSegmentInfo(subject.getFingers().get(8),listLblFinger.get(8), listMissingFinger.get(8), listViewFinger.get(8), listStackPane.get(8));
                 break;
             case 10:
-                setSegmentInfo(subject.getFingers().get(9), new Label(listMissingFinger.get(9).toString()), listMissingFinger.get(9), listViewFinger.get(9));
+                setSegmentInfo(subject.getFingers().get(9),listLblFinger.get(9), listMissingFinger.get(9), listViewFinger.get(9), listStackPane.get(9));
                 break;
         }
     }
@@ -394,11 +413,21 @@ public class CitizenshipBack implements Initializable {
         return pose;
     }
 
-    private void setSegmentInfo(NFinger finger, Label lblPs, NFPosition position, FingerViewLittle fingerView) {
+    private void setSegmentInfo(NFinger finger, Label lblPs, NFPosition position, FingerViewLittle fingerView, StackPane stackPane) {
         finger.setPosition(position);
         String lblPosition = finger.getPosition().toString();
         lblPs.setText(lblPosition);
-        lblPs.setTextFill(Color.RED);
+        if (lblPosition.equals(NFPosition.RIGHT_THUMB.name()) || lblPosition.equals(NFPosition.LEFT_THUMB.name())){
+            lblPs.setTextFill(Color.BLACK);
+            lblPs.setBackground(new Background(new BackgroundFill(Color.rgb(255,106,106, 0.7), new CornerRadii(5.0), new Insets(-5.0))));
+        }else  if (lblPosition.equals(NFPosition.LEFT_INDEX_FINGER.name()) || lblPosition.equals(NFPosition.RIGHT_INDEX_FINGER.name())){
+            lblPs.setTextFill(Color.BLACK);
+            lblPs.setBackground(new Background(new BackgroundFill(Color.rgb(84, 255, 159, 0.7), new CornerRadii(5.0), new Insets(-5.0))));
+        }else {
+            lblPs.setTextFill(Color.BLACK);
+            lblPs.setBackground(new Background(new BackgroundFill(Color.rgb(193, 255, 193, 0.7), new CornerRadii(5.0), new Insets(-5.0))));
+        }
+
         fingerView.setFinger(finger);
     }
 

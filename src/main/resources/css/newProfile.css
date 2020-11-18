@@ -1,0 +1,101 @@
+.main-pane {
+    -fx-background-color: white;
+    -fx-background-radius: 15;
+}
+
+.pane-front {
+    -fx-background-color: white;
+    -fx-background-radius: 15;
+}
+
+.stack-pane {
+    -fx-background-color: #E5E5E5;
+    -fx-background-radius: 5;
+}
+
+.text-field {
+    -fx-background-color: #F2F2F2;
+    -fx-padding: 5px;
+    -fx-prompt-text-fill: #a5a5a5;
+}
+
+.combo-box {
+    -fx-background-color: #F2F2F2;
+    -fx-text-fill: #F2F2F2;
+}
+
+.combo-box .cell {
+    -fx-background-color: #F2F2F2;
+    -fx-text-fill: #a5a5a5;
+}
+
+.jfx-date-picker .input-line {
+    -jfx-unfocus-color: white;
+}
+
+.jfx-date-picker .jfx-text-field {
+    -jfx-unfocus-color: white;
+}
+
+.jfx-combo-box {
+    -fx-padding: 5px;
+    -fx-prompt-text-fill: #a5a5a5;
+}
+
+.jfx-combo-box .list-cell{
+    -fx-background-color: white;
+    -fx-text-fill: #000;
+}
+
+.text-nid {
+    -fx-text-fill: #106466;
+    -fx-font-weight: bold;
+}
+
+.list-view {
+    -fx-background-color: white;
+    -fx-background-radius: 10 0 0 10;
+}
+
+.list-view .list-cell {
+    -fx-padding: 15;
+}
+
+.list-view .scroll-bar{
+    -fx-background-color: white;
+}
+.list-view .scroll-bar .increment-arrow,
+.list-view .scroll-bar .decrement-arrow,
+.list-view .scroll-bar .increment-button,
+.list-view .scroll-bar .decrement-button {
+    -fx-background-color: white;
+}
+
+.list-view .scroll-bar .thumb {
+    -fx-background-color: #106466;
+}
+
+.list-view .list-cell .label {
+    -fx-padding: 20px ;
+}
+
+.stack-pane-min {
+    -fx-border-radius: 5;
+    -fx-border-color: #BDBDBD;
+}
+
+.btn-back-step {
+    -fx-background-color: #E0E0E0;
+    -fx-text-fill: #4F4F4F;
+    -fx-font-weight: bold;
+}
+
+.pane-radius {
+    -fx-background-radius: 0 0 15 15;
+}
+
+.label-hand{
+    -fx-alignment: center;
+    -fx-border-radius: 3;
+    -fx-background-radius: 5;
+}

@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXComboBox?>
+<?import java.net.URL?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.shape.Circle?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="441.0" prefWidth="721.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.biometrics.cmnd.controller.LoginBiometrics">
+    <stylesheets>
+        <URL value="@../../../../css/login.css" />
+    </stylesheets>
+
+    <children>
+        <BorderPane prefHeight="441.0" prefWidth="721.0">
+            <left>
+                <Pane prefHeight="442.0" prefWidth="337.0" styleClass="linear-grad" stylesheets="@../../../../css/login.css" BorderPane.alignment="CENTER">
+                    <children>
+                        <HBox layoutX="14.0" layoutY="14.0" spacing="5.0">
+                            <children>
+                                <Circle fx:id="btnClose" fill="#ff501f" layoutX="19.0" layoutY="19.0" onMouseClicked="#handleMouseEvent" radius="6.0" stroke="WHITE" strokeType="INSIDE" />
+                                <Circle fill="#ffff1f" layoutX="16.0" layoutY="16.0" radius="6.0" stroke="WHITE" strokeType="INSIDE" />
+                                <Circle fill="#58ff1f" layoutX="33.0" layoutY="16.0" radius="6.0" stroke="WHITE" strokeType="INSIDE" />
+                            </children>
+                        </HBox>
+                        <ImageView fx:id="logo" fitHeight="104.0" fitWidth="101.0" layoutX="118.0" layoutY="126.0" pickOnBounds="true" preserveRatio="true">
+                            <image>
+                                <Image url="@../../../../icons/biometric-identification.png" />
+                            </image>
+                        </ImageView>
+                        <Label layoutX="95.0" layoutY="252.0" text="Biometrics UI" textFill="WHITE">
+                            <font>
+                                <Font size="24.0" />
+                            </font>
+                        </Label>
+                    </children>
+                </Pane>
+            </left>
+            <center>
+                <StackPane prefHeight="150.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+                    <stylesheets>
+                        <URL value="@../../../../css/login.css" />
+                    </stylesheets>
+                    <children>
+                        <Pane prefHeight="200.0" prefWidth="200.0" />
+                        <Pane prefHeight="200.0" prefWidth="200.0">
+                            <children>
+                                <StackPane layoutX="83.0" layoutY="110.0" prefHeight="214.0" prefWidth="226.0" styleClass="stackpane" stylesheets="@../../../../css/login.css" />
+                                <Button fx:id="btnScan" layoutX="83.0" layoutY="342.0" mnemonicParsing="false" onAction="#handleButtonAction" prefHeight="35.0" prefWidth="108.0" stylesheets="@../../../../css/login.css" text="Scan" />
+                                <Button fx:id="btnLogin" layoutX="202.0" layoutY="342.0" mnemonicParsing="false" onAction="#handleButtonAction" prefHeight="35.0" prefWidth="107.0" stylesheets="@../../../../css/login.css" text="Login" />
+                                <JFXComboBox focusColor="#d5cbeb" layoutX="82.0" layoutY="64.0" prefHeight="25.0" prefWidth="227.0" style="-fx-background-color: #fff;" unFocusColor="#d5cbeb" />
+                                <Label layoutX="140.0" layoutY="14.0" text="Login Scan">
+                                    <font>
+                                        <Font name="System Bold" size="22.0" />
+                                    </font>
+                                </Label>
+                            </children>
+                        </Pane>
+                    </children>
+                </StackPane>
+            </center>
+        </BorderPane>
+    </children>
+</AnchorPane>

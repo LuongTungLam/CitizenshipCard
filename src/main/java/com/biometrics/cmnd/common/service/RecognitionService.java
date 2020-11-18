@@ -20,6 +20,8 @@ public interface RecognitionService {
 
     public NSubject identify(NSubject probSubject, List<NSubject> referenceSubjects);
 
+    public NSubject identifyFace(NSubject probSubject, List<NSubject> referenceSubjects);
+
     public NBiometricStatus enrollOnServer(NSubject subject);
 
     public List<NMatchingResult> identifyOnServer(NSubject subject);

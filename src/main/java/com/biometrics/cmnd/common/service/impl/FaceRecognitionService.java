@@ -207,6 +207,61 @@ public class FaceRecognitionService implements RecognitionService {
     }
 
     @Override
+    public NSubject identifyFace(NSubject probSubject, List<NSubject> referenceSubjects) {
+        NBiometricTask enrollTask = null;
+        NBiometricStatus status = null;
+        List<NMatchingResult> results = new ArrayList<>();
+
+        try {
+            status = biometricClient.createTemplate(probSubject);
+            if (status != NBiometricStatus.OK) {
+                System.out.format("Failed to create probe template. Status: %s.\n", status);
+                System.exit(-1);
+            }
+
+            enrollTask = biometricClient.createTask(EnumSet.of(NBiometricOperation.ENROLL), null);
+            enrollTask.getSubjects().addAll(referenceSubjects);
+
+            biometricClient.performTask(enrollTask);
+            if (enrollTask.getStatus() != NBiometricStatus.OK) {
+                System.out.format("Enrollment was unsuccessful. Status: %s.\n", enrollTask.getStatus());
+                if (enrollTask.getError() != null) throw enrollTask.getError();
+            }
+
+            biometricClient.setMatchingThreshold(48);
+
+            biometricClient.setFacesMatchingSpeed(NMatchingSpeed.LOW);
+
+            status = biometricClient.identify(probSubject);
+
+            if (status == NBiometricStatus.OK) {
+                for (NMatchingResult result : probSubject.getMatchingResults()) {
+                    System.out.format("Matched with ID: '%s' with score %d\n", result.getId(), result.getScore());
+                    results.add(result);
+                }
+            } else if (status == NBiometricStatus.MATCH_NOT_FOUND) {
+                Platform.runLater(() -> {
+                    Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+                    alert.setTitle("Login Failed");
+                    alert.setHeaderText("Not Found Finger !");
+                    alert.showAndWait();
+                });
+            } else {
+                System.out.format("Identification failed. Status: %s\n", status);
+                System.exit(-1);
+            }
+
+        } catch (Throwable th) {
+            th.printStackTrace();
+        } finally {
+            if (enrollTask != null) enrollTask.dispose();
+        }
+
+        return probSubject;
+
+    }
+
+    @Override
     public NBiometricStatus enrollOnServer(NSubject subject) {
         return null;
     }

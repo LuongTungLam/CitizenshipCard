@@ -1,0 +1,94 @@
+.top-pane {
+    /*-fx-background-color: #fff;*/
+}
+
+.taskbar-pane {
+    -fx-background-color: #2262C6;
+    -fx-background-radius: 0 60 0 0;
+}
+
+.button-taskbar {
+    -fx-background-color: #2262C6;
+    -fx-text-fill: #FFF;
+}
+
+.button-taskbar:hover {
+    -fx-background-color: #589eff;
+    -fx-text-fill: #FFF;
+}
+
+.text-search {
+    -fx-background-radius: 10;
+}
+
+.button-image {
+    -fx-background-color: #fff;
+}
+
+.button-image:hover {
+    -fx-background-color: #E4EEFD;
+}
+
+.option-list-view {
+    -fx-pref-width: 100px;
+    -fx-background-color: WHITE;
+}
+
+.custom-jfx-list-view-icon-container {
+    -fx-pref-width: 40px;
+}
+
+.option-jfx-list-view-icon {
+    -fx-fill: #5264AE;
+    -fx-padding: 0.0 10.0 0.0 5.0;
+    -fx-cursor: hand;
+}
+
+.icon {
+
+}
+
+.icon-button {
+    -fx-fill: #948983;
+    -fx-padding: 10.0;
+    -fx-cursor: hand;
+}
+
+.user {
+
+}
+
+.table-view {
+    -fx-background-color: #E4EEFD;
+    -fx-background-radius: 0 0 20 20;
+}
+
+.table-view .column-header {
+    -fx-background-color: #E4EEFD;
+}
+
+.table-row-cell :hover {
+    -fx-background-color: #d1e0f6;
+    -fx-background-insets: 0, 0 0 1 0;
+    -fx-padding: 0.0em;
+}
+
+.table-row-cell :even {
+    -fx-background-color: #d1e0f6;
+    -fx-background-insets: 0, 0 0 1 0;
+    -fx-padding: 0.0em;
+}
+
+.icons-badge .badge-pane {
+    -fx-background-color: #ff4081;
+    -fx-background-radius: 23;
+    -fx-pref-width: 23;
+    -fx-pref-height: 23;
+    -fx-alignment: center;
+}
+
+.icons-badge Label {
+    -fx-font-weight: BOLD;
+    -fx-font-size: 14.0px;
+    -fx-text-fill: WHITE;
+}
